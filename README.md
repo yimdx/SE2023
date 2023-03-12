@@ -1,7 +1,7 @@
 # 2023SoftEngineering-3
 
 <p align="center">
-<img src="2023SoftEngineering-3\images\intro.jpg" alt= “Profile” height="300" />         
+<img src="images\intro.jpg" alt= “Profile” height="300" />         
 </p>             
 
 # __陈玥娴 22307130409__
