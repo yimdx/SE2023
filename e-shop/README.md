@@ -22,6 +22,22 @@ npm install
 npm run dev
 ```
 
+
+
+### Basic Structure of the project:
+
+all the files modified are in the src dir :)
+
+static dir stores images or any other static resources
+
+views includes pages we've created
+
+components may be useless (at least till now)
+
+stores may be useless
+
+router/index.js  includes all the frontend routers we've created
+
 ### Compile and Minify for Production
 
 ```sh
