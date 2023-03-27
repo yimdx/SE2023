@@ -11,26 +11,20 @@
       margin: 0;
       padding: 0;
     }
-    .close-btn{
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: red;
-      z-index: 999;
-    }
+
   </style>
 </head>
 
 <body>
-  <div class="close-btn" id="close-btn"></div>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/TaylorLottner/Fork/sakura.js"></script>
   <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
   <script>
+
+
+
+     let status=true;
     L2Dwidget.init({
       "model": {
         jsonPath:
@@ -38,24 +32,28 @@
         "scale": 1
       }, "display": {
         "position": "right", "width": 150, "height": 150,
-        "hOffset": 0, "vOffset": -20
+        "hOffset": 0, "vOffset": -20,"z-index":999,"pointer-events":"click"
       }, "mobile": { "show": true, "scale": 0.5 },
       "react": { "opacityDefault": 0.7, "opacityOnHover": 0.2 }
     });
 
-    let status=true;
-    document.getElementById("close-btn").addEventListener("click",()=>{
-      if(status){
-        status=false;
-        var child = document.getElementById("canvas_sakura");
-        var parent=child.parentNode;
-        parent.removeChild(child);
-      }else{
-        status=true;
-        startSakura();
-      }
-
-    });
+   
+    window.onload=()=>{
+      document.getElementById("live2d-widget").style.zIndex=1000;
+      document.getElementById("live2d-widget").onclick=()=>{
+        if(status){
+          status=false;
+          var child = document.getElementById("canvas_sakura");
+          var parent=child.parentNode;
+          parent.removeChild(child);
+        }else{
+          status=true;
+          startSakura();
+        }
+       };
+       document.getElementById("live2dcanvas").style.pointerEvents="all";
+    };
+    
 
 
     
