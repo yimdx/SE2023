@@ -117,6 +117,18 @@
 import { SwitchButton } from "@element-plus/icons-vue";
 
 import { ref } from 'vue'
+import {sakura} from "../static/img-base64/sakura"
+img.src=sakura;
+var child = document.getElementById("canvas_sakura");
+while(child){
+    var parent=child.parentNode;
+    parent.removeChild(child);
+    child = document.getElementById("canvas_sakura")
+}
+startSakura();
+child = document.getElementById("canvas_sakura")
+var parent=child.parentNode;
+parent.removeChild(child);
 const currentDate = ref(new Date())
 const titles1=["Availability","Save Time","Comparison of Prices "];
 const des1=[
