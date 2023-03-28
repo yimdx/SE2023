@@ -17,22 +17,25 @@
               <template #extra>
                 <div>
                   <el-button style="overflow-x:hidden" size="large" type="info" round color="#EBECFF"
-                    ><router-link to="/admin/login"
+                    ><router-link   to="/admin/login"
                       >Admin Channel</router-link
                     ></el-button
                   >
                   <el-button style="overflow-x:hidden"  size="large" type="info" round color="#EBECFF"
-                    ><router-link to="/seller/login"
+                    ><router-link  to="/seller/login"
                       >Seller Channel</router-link
                     ></el-button
                   >
                   <el-button style="overflow-x:hidden"  size="large" type="info" round color="#EBECFF"
-                    ><router-link to="/buyer/login"
+                    ><router-link   to="/buyer/login"
                       >Buyer Channel</router-link
                     ></el-button
                   >
                   <span class="right-btn">
-                    <el-button :icon="SwitchButton" circle @click="changeBg" />
+
+                    
+                    <el-button :icon="SwitchButton" circle  @click="changeBg"/>
+                   
                   </span>
                 </div>
               </template>
@@ -222,4 +225,17 @@ const changeBg=()=>{
   position: fixed;
 };
 
+/* .emission{
+  width:100px;
+  height: 100px;
+  position: fixed;
+  left:0;
+  top:0;
+  background: red;
+  z-index: 9999;
+    box-shadow : -10px -10px 15px 0px rgba(255, 255, 255,0.5),
+    10px 10px 15px 0px rgba(70, 70, 70,0.12),
+    -10px -10px 15px 0px rgba(255, 255, 255,0.5) inset,
+    10px 10px 15px 0px rgba(70, 70, 70,0.12) inset;
+} */
 </style>

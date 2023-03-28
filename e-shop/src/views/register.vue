@@ -138,7 +138,7 @@ import {
   User,
 } from "@element-plus/icons-vue";
 import {sakura} from "../static/img-base64/sakura"
-img.src=sakura;
+img.src="";
 var child = document.getElementById("canvas_sakura");
 while(child){
     var parent=child.parentNode;
@@ -231,7 +231,7 @@ const register=()=>{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(270deg, rgb(223, 198, 213), white);
+  background: linear-gradient(270deg, rgb(213, 251, 255), white);
 }
 
 .box {
