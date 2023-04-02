@@ -128,6 +128,7 @@
 <script setup>
 import { ElNotification } from "element-plus";
 import { ref ,getCurrentInstance} from "vue";
+import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../utils/regressionCheck"
 import {
   Key,
@@ -158,6 +159,7 @@ const idCode = ref("");
 const emailPrefix = ref("");
 const emailSuffix = ref("");
 const certifyPassword = ref("");
+const router=useRouter();
 const register=()=>{
   if(!usernameCheck(username.value)){
      ElNotification({
@@ -213,10 +215,19 @@ const register=()=>{
         email:emailPrefix.value+"@"+emailSuffix.value
       })
       .then(function (res) {
-        console.log(res.data);
+        router.push('/');
+        console.log("....")
+         ElNotification({
+          title: "Success",
+          message: "Register Success",
+          type: "success",});
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Register Failed(maybe username not unique)",
+          type: "error",});
       });
   }
   
