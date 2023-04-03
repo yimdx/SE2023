@@ -7,6 +7,10 @@ import SellerHome from "../views/Seller/index.vue"
 import BuyerHome from "../views/Buyer/index.vue"
 import BuyerLogin from "../views/Buyer/login.vue"
 import UserRegister  from  "../views/register.vue"
+import Store from "../views/store.vue"
+import SellerRequest from "../views/Seller/request.vue"
+import AdminRequest from "../views/Admin/request.vue"
+import AdminUserView from "../views/Admin/user.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -30,7 +34,24 @@ const router = createRouter({
         {
           path:'index',
           name:'adminHome',
-          component:AdminHome
+          component:AdminHome,
+          children:[
+            {
+              path:'/store',
+              name:'adminstore',
+              component:Store
+            },
+            {
+              path:'/request',
+              name:'adminRequest',
+              component:AdminRequest
+            },
+            {
+              path:'/user',
+              name:'adminUserView',
+              component:AdminUserView
+            },
+          ]
         }
       ]
     },
@@ -46,7 +67,14 @@ const router = createRouter({
         {
           path:'index',
           name:'sellerHome',
-          component:SellerHome
+          component:SellerHome,
+          children:[
+            {
+              path:'/store',
+              name:'sellerstore',
+              component:Store
+            },
+          ]
         }
       ]
     },
@@ -62,7 +90,20 @@ const router = createRouter({
         {
           path:'index',
           name:'buyerHome',
-          component:BuyerHome
+          component:BuyerHome,
+          redirect:'/store',
+          children:[
+            {
+              path:'/store',
+              name:'buyerstore',
+              component:Store
+            },
+            {
+              path:'/request',
+              name:'sellerRequest',
+              component:SellerRequest
+            },
+          ]
         }
       ]
     }

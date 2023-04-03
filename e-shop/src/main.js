@@ -8,11 +8,11 @@ import router from './router'
 import axios from 'axios'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-
+import { Edit } from '@element-plus/icons-vue'
 
 const app = createApp(App)
 
-
+app.component(Edit.name, Edit) 
 // 将axios挂载到原型对象上
 app.config.globalProperties.$axios = axios;
 // 设置axios请求的地址默认是'/api'，后续会通过代理转移
