@@ -31,15 +31,12 @@ instance.interceptors.request.use(function (config) {
 });
  
 instance.interceptors.response.use(function (response) {
-    console.log(response.status)
     if (response.status === 200) {
-        console.log("45455");
         return Promise.resolve(response);
     } else {
         return Promise.reject(response);
     }
 }, function (error) {
-    console.log("!!");
     if (error.response.status) {
         switch (error.response.status) {                
             case 401:
@@ -48,11 +45,6 @@ instance.interceptors.response.use(function (response) {
                 });
                 break;            
             case 403:
-                // this.$message({
-                //     message: '登录过期，请重新登录',
-                //     duration: 1000,
-                //     type: 'success'
-                // });
                 localStorage.removeItem('token');
                 setTimeout(() => {
                     router.replace({
@@ -60,27 +52,15 @@ instance.interceptors.response.use(function (response) {
                     });
                 }, 1000);
                 break;
-
             case 404:
-                // this.$message({
-                //     message: '网络请求不存在',
-                //     duration: 1500,
-                //     type: 'success'
- 
-                // });
                 break;
             default:
-        //         this.$message({
-        //             message: error.response.data.message,
-        //             duration: 1500,
-        //             type: 'success'
- 
-        //         });
+    
         }
         return Promise.reject(error.response);
     }
 });
- 
+
 router.beforeEach((to, from, next) => {
     const token = window.localStorage.getItem('token');
     if (to.path==='/register' || to.path === '/admin/login' || to.path === '/seller/login' || to.path === '/buyer/login' || to.path=== '/') {

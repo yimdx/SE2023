@@ -135,14 +135,12 @@ const signInBuyer = () => {
       .then(function (res) {
         window.localStorage.setItem('token','123');
         router.push('/admin/index');
-        console.log(res.data);
         ElNotification({
           title: "Success",
           message: "Login Success",
           type: "success",});
       })
       .catch(function (error) {
-        console.log(error);
         ElNotification({
           title: "Error",
           message: "User Not Found",

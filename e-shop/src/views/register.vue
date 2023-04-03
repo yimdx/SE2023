@@ -216,7 +216,6 @@ const register=()=>{
       })
       .then(function (res) {
         router.push('/');
-        console.log("....")
          ElNotification({
           title: "Success",
           message: "Register Success",
