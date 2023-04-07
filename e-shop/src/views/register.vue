@@ -138,18 +138,18 @@ import {
   Iphone,
   User,
 } from "@element-plus/icons-vue";
-import {sakura} from "../static/img-base64/sakura"
-img.src="";
-var child = document.getElementById("canvas_sakura");
-while(child){
-    var parent=child.parentNode;
-    parent.removeChild(child);
-    child = document.getElementById("canvas_sakura")
-}
-startSakura();
-child = document.getElementById("canvas_sakura")
-var parent=child.parentNode;
-parent.removeChild(child);
+// import {sakura} from "../static/img-base64/sakura"
+// img.src="";
+// var child = document.getElementById("canvas_sakura");
+// while(child){
+//     var parent=child.parentNode;
+//     parent.removeChild(child);
+//     child = document.getElementById("canvas_sakura")
+// }
+// startSakura();
+// child = document.getElementById("canvas_sakura")
+// var parent=child.parentNode;
+// parent.removeChild(child);
 let {proxy}= getCurrentInstance();
 const radio = ref("buyer");
 const username = ref("");

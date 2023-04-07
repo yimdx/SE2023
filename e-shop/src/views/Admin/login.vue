@@ -96,18 +96,18 @@ import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { usernameCheck, passwordCheck } from "../../utils/regressionCheck.js";
-import {snow} from "../../static/img-base64/snow"
-img.src=snow;
-var child = document.getElementById("canvas_sakura");
-while(child){
-    var parent=child.parentNode;
-    parent.removeChild(child);
-    child = document.getElementById("canvas_sakura")
-}
-startSakura();
-child = document.getElementById("canvas_sakura")
-var parent=child.parentNode;
-parent.removeChild(child);
+// import {snow} from "../../static/img-base64/snow"
+// img.src=snow;
+// var child = document.getElementById("canvas_sakura");
+// while(child){
+//     var parent=child.parentNode;
+//     parent.removeChild(child);
+//     child = document.getElementById("canvas_sakura")
+// }
+// startSakura();
+// child = document.getElementById("canvas_sakura")
+// var parent=child.parentNode;
+// parent.removeChild(child);
 
 let { proxy } = getCurrentInstance();
 

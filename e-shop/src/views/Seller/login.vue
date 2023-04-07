@@ -96,20 +96,20 @@ import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { usernameCheck, passwordCheck } from "../../utils/regressionCheck.js";
-import {leaf} from "../../static/img-base64/leaf"
+// import {leaf} from "../../static/img-base64/leaf"
 let { proxy } = getCurrentInstance();
 
-img.src=leaf;
-var child = document.getElementById("canvas_sakura");
-while(child){
-    var parent=child.parentNode;
-    parent.removeChild(child);
-    child = document.getElementById("canvas_sakura")
-}
-startSakura();
-child = document.getElementById("canvas_sakura")
-var parent=child.parentNode;
-parent.removeChild(child);
+// img.src=leaf;
+// var child = document.getElementById("canvas_sakura");
+// while(child){
+//     var parent=child.parentNode;
+//     parent.removeChild(child);
+//     child = document.getElementById("canvas_sakura")
+// }
+// startSakura();
+// child = document.getElementById("canvas_sakura")
+// var parent=child.parentNode;
+// parent.removeChild(child);
 
 const errorMsg = ref("");
 const username = ref("");
