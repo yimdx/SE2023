@@ -35,3 +35,19 @@ export function emailCheck(email){
     return reg.test(email);
 }
 
+export function shopNameCheck(username){
+    return RegExp("^[a-zA-z0-9_]{3,10}$").test(username);
+}
+
+export function addressCheck(address){
+    // return RegExp("^[a-zA-z0-9_]{3,10}$").test(address);
+    return true;
+}
+
+export function identificationIDCheck(identificationID){
+    return RegExp("[0-9]*$").test(identificationID);
+}
+
+export function initialFundCheck(initialFund){
+    return RegExp("[0-9]*.[0-9]*$").test(initialFund);
+}
