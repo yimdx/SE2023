@@ -40,7 +40,8 @@
         <el-aside width="200px" height="100%" color="#334155">
             <el-scrollbar>
             <!-- <div class="navigation"> -->
-              <el-menu :default-openeds="['1', '3']">
+              <el-menu :default-openeds="['1', '3']"
+              :router='true'>
                 <el-sub-menu index="1">
                   <template #title>
                     <el-icon><message /></el-icon>All Users
@@ -59,10 +60,10 @@
                   </template>
                   <el-menu-item-group>
                     <template #title>Store</template>
-                    <el-menu-item index="2-1">stores</el-menu-item>
+                    <el-menu-item index="store" @click="goto('/seller/index/store')">stores</el-menu-item>
                   </el-menu-item-group>
                   <el-menu-item-group title="Request">
-                    <el-menu-item index="2-3">requests</el-menu-item>
+                    <el-menu-item index="request" @click="gotoRequestPage">requests</el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -70,6 +71,7 @@
             </el-scrollbar>
         </el-aside>
         <el-main style="width:100%;margin:0;padding:0;margin-top:12px;z-index=998">
+           <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>

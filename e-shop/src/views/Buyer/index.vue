@@ -16,10 +16,6 @@
             <div class="title">Welcome To e-shop!</div>
           </el-page-header>
         <div class="toolbar">
-          <!-- <span class="right-btn">   
-                    <el-button :icon="SwitchButton" circle  @click="changeBg"/>
-          
-                  </span> -->
           <el-dropdown>
             <el-icon style="right: 2%;" color="#334155" size="170%"
               ><setting
@@ -40,29 +36,15 @@
         <el-aside width="200px" height="100%" color="#334155">
             <el-scrollbar>
             <!-- <div class="navigation"> -->
-              <el-menu :default-openeds="['1', '3']">
+              <el-menu :default-openeds="['1', '3']"
+              :router='true'>
                 <el-sub-menu index="1">
-                  <template #title>
-                    <el-icon><message /></el-icon>All Users
-                  </template>
-                  <el-menu-item-group>
-                    <template #title>Merchant</template>
-                    <el-menu-item index="1-2">merchents</el-menu-item>
-                  </el-menu-item-group>
-                  <el-menu-item-group title="User">
-                    <el-menu-item index="1-3">users</el-menu-item>
-                  </el-menu-item-group>
-                </el-sub-menu>
-                <el-sub-menu index="2">
                   <template #title>
                     <el-icon><icon-menu /></el-icon>All Stores
                   </template>
                   <el-menu-item-group>
                     <template #title>Store</template>
-                    <el-menu-item index="2-1">stores</el-menu-item>
-                  </el-menu-item-group>
-                  <el-menu-item-group title="Request">
-                    <el-menu-item index="2-3">requests</el-menu-item>
+                    <el-menu-item index="store" @click="goto('/seller/index/store')">stores</el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -70,6 +52,7 @@
             </el-scrollbar>
         </el-aside>
         <el-main style="width:100%;margin:0;padding:0;margin-top:12px;z-index=998">
+           <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -80,7 +63,7 @@
 <script setup>
 import { Setting } from "@element-plus/icons-vue";
 import { Edit } from '@element-plus/icons-vue'
-
+import { useRouter } from "vue-router";
 const changesettings=()=>{
   // if(bg_op.value==false){
   //   bg_op.value=true;
@@ -98,6 +81,11 @@ const logout=()=>{
 const goinfo=()=>{
   // not implemented
 };
+// const router = useRouter();
+// const gotoRequestPage = () => {
+//   router.push("/seller/index/request");
+// };
+
 </script>
 
 

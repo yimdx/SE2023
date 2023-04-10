@@ -36,19 +36,20 @@ const router = createRouter({
           path:'index',
           name:'adminHome',
           component:AdminHome,
+          redirect:'/admin/index/store',
           children:[
             {
-              path:'/store',
+              path:'store',
               name:'adminstore',
               component:Store
             },
             {
-              path:'/request',
+              path:'request',
               name:'adminRequest',
               component:AdminRequest
             },
             {
-              path:'/user',
+              path:'user',
               name:'adminUserView',
               component:AdminUserView
             },
@@ -96,10 +97,10 @@ const router = createRouter({
           path:'index',
           name:'buyerHome',
           component:BuyerHome,
-          redirect:'/store',
+          redirect:'/buyer/index/store',
           children:[
             {
-              path:'/store',
+              path:'store',
               name:'buyerstore',
               component:Store
             },
