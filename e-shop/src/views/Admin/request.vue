@@ -69,13 +69,21 @@ export default {
          params: this.queryInfo
       })
       if (res.meta.status !== 200) return this.$message.error('getting store list failed')
-      this.storelist = res.data.stores
-      // this.total = res.data.total
+      this.storelist = res.data
       console.log(res)
       },
 
       approveRequest(index){
-         proxy.$http.post('/admin/index/stores', this.storelist[index])
+         proxy.$http
+         .post('/store/request',
+          this.storelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+         })
+      .catch(function (error) {
+         console.log(error);
+         });
       }
    
   }
