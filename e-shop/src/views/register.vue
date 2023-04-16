@@ -128,6 +128,7 @@
 <script setup>
 import { ElNotification } from "element-plus";
 import { ref ,getCurrentInstance} from "vue";
+import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../utils/regressionCheck"
 import {
   Key,
@@ -137,18 +138,18 @@ import {
   Iphone,
   User,
 } from "@element-plus/icons-vue";
-import {sakura} from "../static/img-base64/sakura"
-img.src="";
-var child = document.getElementById("canvas_sakura");
-while(child){
-    var parent=child.parentNode;
-    parent.removeChild(child);
-    child = document.getElementById("canvas_sakura")
-}
-startSakura();
-child = document.getElementById("canvas_sakura")
-var parent=child.parentNode;
-parent.removeChild(child);
+// import {sakura} from "../static/img-base64/sakura"
+// img.src="";
+// var child = document.getElementById("canvas_sakura");
+// while(child){
+//     var parent=child.parentNode;
+//     parent.removeChild(child);
+//     child = document.getElementById("canvas_sakura")
+// }
+// startSakura();
+// child = document.getElementById("canvas_sakura")
+// var parent=child.parentNode;
+// parent.removeChild(child);
 let {proxy}= getCurrentInstance();
 const radio = ref("buyer");
 const username = ref("");
@@ -158,6 +159,7 @@ const idCode = ref("");
 const emailPrefix = ref("");
 const emailSuffix = ref("");
 const certifyPassword = ref("");
+const router=useRouter();
 const register=()=>{
   if(!usernameCheck(username.value)){
      ElNotification({
@@ -213,10 +215,18 @@ const register=()=>{
         email:emailPrefix.value+"@"+emailSuffix.value
       })
       .then(function (res) {
-        console.log(res.data);
+        router.push('/');
+         ElNotification({
+          title: "Success",
+          message: "Register Success",
+          type: "success",});
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Register Failed(maybe username not unique)",
+          type: "error",});
       });
   }
   

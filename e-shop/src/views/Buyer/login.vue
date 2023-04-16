@@ -96,18 +96,18 @@ import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { usernameCheck, passwordCheck } from "../../utils/regressionCheck.js";
-import {sakura} from "../../static/img-base64/sakura"
-img.src=sakura;
-var child = document.getElementById("canvas_sakura");
-while(child){
-    var parent=child.parentNode;
-    parent.removeChild(child);
-    child = document.getElementById("canvas_sakura")
-}
-startSakura();
-child = document.getElementById("canvas_sakura")
-var parent=child.parentNode;
-parent.removeChild(child);
+// import {sakura} from "../../static/img-base64/sakura"
+// img.src=sakura;
+// var child = document.getElementById("canvas_sakura");
+// while(child){
+//     var parent=child.parentNode;
+//     parent.removeChild(child);
+//     child = document.getElementById("canvas_sakura")
+// }
+// startSakura();
+// child = document.getElementById("canvas_sakura")
+// var parent=child.parentNode;
+// parent.removeChild(child);
 
 let { proxy } = getCurrentInstance();
 
@@ -133,10 +133,18 @@ const signInBuyer = () => {
         password: password.value,
       })
       .then(function (res) {
-        console.log(res.data);
+        window.localStorage.setItem('token','123');
+        router.push('/buyer/index');
+        ElNotification({
+          title: "Success",
+          message: "Login Success",
+          type: "success",});
       })
       .catch(function (error) {
-        console.log(error);
+        ElNotification({
+          title: "Error",
+          message: "User Not Found",
+          type: "Error",});
       });
   } else {
     ElNotification({
