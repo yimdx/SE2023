@@ -1,8 +1,10 @@
-import { ref, computed } from 'vue'
+import { ref, computed,reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', () => {
   let userName =ref("");
   let userType =ref("");
-  return {userName,userType}
+  let cart=reactive([]);
+  let cartNum=ref(0);
+  return {userName,userType,cart,cartNum}
 })

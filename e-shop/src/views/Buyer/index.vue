@@ -40,11 +40,11 @@
               :router='true'>
                 <el-sub-menu index="1">
                   <template #title>
-                    <el-icon><icon-menu /></el-icon>All Stores
+                    <el-icon><Menu /></el-icon><span style="font-size:25px">All Stores</span>
                   </template>
                   <el-menu-item-group>
-                    <template #title>Store</template>
-                    <el-menu-item index="store" @click="gotoStore">stores</el-menu-item>
+                    <template #title><span style="font-size:23px">Store</span></template>
+                    <el-menu-item index="store" @click="gotoStore"><span style="font-size:20px">Stores</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -62,7 +62,7 @@
 
 <script setup>
 import { Setting } from "@element-plus/icons-vue";
-import { Edit } from '@element-plus/icons-vue'
+import { Edit ,Menu} from '@element-plus/icons-vue'
 import { useRouter } from "vue-router";
 const changesettings=()=>{
   // if(bg_op.value==false){
