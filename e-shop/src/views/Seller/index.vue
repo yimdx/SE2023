@@ -26,32 +26,36 @@
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click.enter="goinfo">your information</el-dropdown-item>
-                <el-dropdown-item @click.enter="changesettings">settings</el-dropdown-item>
-                <el-dropdown-item @click.enter="logout">signed out</el-dropdown-item>
+                <el-dropdown-item @click.enter="goinfo">Your Information</el-dropdown-item>
+                <el-dropdown-item @click.enter="changesettings">Settings</el-dropdown-item>
+                <el-dropdown-item @click.enter="logout">Signed Out</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>Name</span>
+          <span>{{userName}}</span>
         </div>
       </div>
       </el-header>
       <el-container>
-        <el-aside width="200px" height="100%" color="#334155">
-            <el-scrollbar>
+        <el-aside width="200px" height="100%" color="#334155" class="aside">
+            <el-scrollbar class="navigation">
             <!-- <div class="navigation"> -->
-              <el-menu :default-openeds="['1', '3']"
+              <el-menu :default-openeds="['1', '3']" class="menu"
               :router='true'>
                 <el-sub-menu index="1">
                   <template #title>
-                    <el-icon><icon-menu /></el-icon>All Stores
+                    <el-icon><Menu /></el-icon><span style="font-size:25px">WorkSpace</span>
                   </template>
                   <el-menu-item-group>
-                    <template #title>Store</template>
-                    <el-menu-item index="store" @click="goto('/seller/index/store')">stores</el-menu-item>
+                    <template #title><el-icon><Menu /></el-icon><span style="font-size:23px">Stores</span></template>
+                    <el-menu-item index="store" @click="gotoStore"><span style="font-size:20px">All Stores</span></el-menu-item>
+                    <el-menu-item index="myStore" @click="gotoMyStore"><span style="font-size:20px">My Store</span></el-menu-item>
                   </el-menu-item-group>
-                  <el-menu-item-group title="Request">
-                    <el-menu-item index="request" @click="gotoRequestPage">requests</el-menu-item>
+                  <el-menu-item-group>
+                     <template #title>
+                    <el-icon><Menu /></el-icon><span style="font-size:23px">Request</span>
+                  </template>
+                    <el-menu-item index="request" @click="gotoRequestPage"><span style="font-size:20px">Open A Store</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -69,8 +73,12 @@
 
 <script setup>
 import { Setting } from "@element-plus/icons-vue";
-import { Edit } from '@element-plus/icons-vue'
+import { Edit,Menu } from '@element-plus/icons-vue'
 import { useRouter } from "vue-router";
+import  {useCounterStore} from "../../stores/counter"
+const counter=useCounterStore();
+const userName=counter.userName;
+const userType=counter.userType;
 const changesettings=()=>{
   // if(bg_op.value==false){
   //   bg_op.value=true;
@@ -78,21 +86,28 @@ const changesettings=()=>{
   //   bg_op.value=false;
   // }
 };
+
+const goinfo=()=>{
+  // not implemented
+};
+const router = useRouter();
+const gotoRequestPage = () => {
+  router.push("/seller/index/request");
+};
+const gotoStore=()=>{
+  router.push("/seller/index/store");
+}
+const gotoMyStore=()=>{
+  router.push("/seller/index/myStore");
+}
 const logout=()=>{
   // if(bg_op.value==false){
   //   bg_op.value=true;
   // }else{
   //   bg_op.value=false;
   // }
+  router.push("/");
 };
-const goinfo=()=>{
-  // not implemented
-};
-// const router = useRouter();
-// const gotoRequestPage = () => {
-//   router.push("/seller/index/request");
-// };
-
 </script>
 
 
@@ -105,18 +120,9 @@ const goinfo=()=>{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(270deg, rgb(255, 255, 255), white);
-  background-size: 200% 200%;
-  background-position: 0 0;
-  animation: bgposition 2s infinite linear alternate;
-}
-@keyframes bgposition {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
+  background:  rgb(230, 224, 224);
+  display: flex;
+
 }
 
 .header {
@@ -127,7 +133,7 @@ const goinfo=()=>{
   display: block;
   height: 80px;
   z-index:999;
-  background-color: #ececec;
+  background-color: #ffffff;
   color: var(--el-text-color-primary);
 }
 
@@ -161,8 +167,17 @@ const goinfo=()=>{
 .navigation{
   position: relative;
   color: antiquewhite;
-  top: 20%;
+  top: 2%;
   overflow-x: hidden;
-  overflow-y: scroll;
+}
+.aside{
+  position: relative;
+  left: 0;
+  width: 18%;
+  font-size: 16px;
+  height: 100%;
+}
+.menu{
+  font-size: 25px;
 }
 </style>

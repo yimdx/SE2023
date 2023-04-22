@@ -22,18 +22,18 @@
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click.enter="goinfo">your information</el-dropdown-item>
-                <el-dropdown-item @click.enter="changesettings">settings</el-dropdown-item>
-                <el-dropdown-item @click.enter="logout">signed out</el-dropdown-item>
+                <el-dropdown-item @click.enter="goinfo">Your Information</el-dropdown-item>
+                <el-dropdown-item @click.enter="changesettings">Settings</el-dropdown-item>
+                <el-dropdown-item @click.enter="logout">Signed Out</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>Name</span>
+          <span>{{userName}}</span>
         </div>
       </div>
       </el-header>
       <el-container>
-        <el-aside width="200px" height="100%" color="#334155">
+        <el-aside width="200px" height="100%" color="#334155" class="aside">
             <el-scrollbar>
             <!-- <div class="navigation"> -->
               <el-menu :default-openeds="['1', '3']"
@@ -44,7 +44,7 @@
                   </template>
                   <el-menu-item-group>
                     <template #title>Store</template>
-                    <el-menu-item index="store" @click="goto('/seller/index/store')">stores</el-menu-item>
+                    <el-menu-item index="store" @click="gotoStore">stores</el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -81,15 +81,16 @@ const logout=()=>{
 const goinfo=()=>{
   // not implemented
 };
-// const router = useRouter();
-// const gotoRequestPage = () => {
-//   router.push("/seller/index/request");
-// };
+const router = useRouter();
+const gotoStore = () => {
+  router.push("/buyer/index/store");
+};
 
 </script>
 
 
 <style scoped>
+
 
 .all {
   position: absolute;
@@ -98,18 +99,9 @@ const goinfo=()=>{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(270deg, rgb(255, 255, 255), white);
-  background-size: 200% 200%;
-  background-position: 0 0;
-  animation: bgposition 2s infinite linear alternate;
-}
-@keyframes bgposition {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
+  background:  rgb(230, 224, 224);
+  display: flex;
+
 }
 
 .header {
@@ -120,7 +112,7 @@ const goinfo=()=>{
   display: block;
   height: 80px;
   z-index:999;
-  background-color: #ececec;
+  background-color: #ffffff;
   color: var(--el-text-color-primary);
 }
 
@@ -154,8 +146,17 @@ const goinfo=()=>{
 .navigation{
   position: relative;
   color: antiquewhite;
-  top: 20%;
+  top: 2%;
   overflow-x: hidden;
-  overflow-y: scroll;
+}
+.aside{
+  position: relative;
+  left: 0;
+  width: 18%;
+  font-size: 16px;
+  height: 100%;
+}
+.menu{
+  font-size: 25px;
 }
 </style>

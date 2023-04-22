@@ -60,23 +60,23 @@ instance.interceptors.response.use(function (response) {
     }
 });
 
-router.beforeEach((to, from, next) => {
-    const token = window.localStorage.getItem('token');
-    if (to.path==='/register' || to.path === '/admin/login' || to.path === '/seller/login' || to.path === '/buyer/login' || to.path=== '/') {
-        return next();
-    }
-    if (!token) return next('/buyer/login');
+// router.beforeEach((to, from, next) => {
+//     const token = window.localStorage.getItem('token');
+//     if (to.path==='/register' || to.path === '/admin/login' || to.path === '/seller/login' || to.path === '/buyer/login' || to.path=== '/') {
+//         return next();
+//     }
+//     if (!token) return next('/buyer/login');
 
-    instance
-      .post("/tokenCheck")
-      .then(function (res) {
-        return next();
-      })
-      .catch(function (error) {
-        return next('/buyer/login')
-      });
+//     instance
+//       .post("/tokenCheck")
+//       .then(function (res) {
+//         return next();
+//       })
+//       .catch(function (error) {
+//         return next('/buyer/login')
+//       });
     
-  });
+//   });
 
 
 app.config.globalProperties.$http=instance;

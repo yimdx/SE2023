@@ -96,6 +96,7 @@ import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { usernameCheck, passwordCheck } from "../../utils/regressionCheck.js";
+import {useCounterStore} from "../../stores/counter"
 // import {snow} from "../../static/img-base64/snow"
 // img.src=snow;
 // var child = document.getElementById("canvas_sakura");
@@ -116,6 +117,7 @@ const errorMsg = ref("");
 const username = ref("");
 const password = ref("");
 const router = useRouter();
+const counter=useCounterStore();
 const gotoBuyerLoginPage = () => {
   router.push("/buyer/login");
 };
@@ -134,6 +136,10 @@ const signInBuyer = () => {
       })
       .then(function (res) {
         window.localStorage.setItem('token','123');
+        counter.$patch({
+          userName:username.value,
+          userType:"admin"
+        });
         router.push('/admin/index');
         ElNotification({
           title: "Success",
