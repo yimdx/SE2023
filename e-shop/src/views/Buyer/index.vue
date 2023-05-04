@@ -78,7 +78,9 @@ const logout=()=>{
   //   bg_op.value=false;
   // }
 };
-const goinfo=()=>{
+const router = useRouter();
+const goInfo=()=>{
+  router.push("/buyer/index/personalinfo");
   // not implemented
 };
 // const router = useRouter();

@@ -11,6 +11,8 @@ import Store from "../views/store.vue"
 import SellerRequest from "../views/Seller/request.vue"
 import AdminRequest from "../views/Admin/request.vue"
 import AdminUserView from "../views/Admin/user.vue"
+import BuyerPersonalInfo from "../views/Buyer/personalinfo.vue"
+import SellerPersonalInfo from "../views/Seller/personalinfo.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,6 +82,11 @@ const router = createRouter({
               path:'/seller/index/request',
               component:SellerRequest
             },
+            {
+              path: '/seller/index/personalinfo',
+              name: 'sellerPersonalInfo',
+              component: SellerPersonalInfo
+            }
           ]
         }
       ]
@@ -101,9 +108,14 @@ const router = createRouter({
           children:[
             {
               path:'store',
-              name:'buyerstore',
+              name:'buyerStore',
               component:Store
             },
+            {
+              path: 'personalinfo',
+              name: 'buyerPersonalInfo',
+              component: BuyerPersonalInfo
+            }
           ]
         }
       ]
