@@ -83,7 +83,7 @@ const goInfo=()=>{
   router.push("/buyer/index/personalinfo");
   // not implemented
 };
-const router = useRouter();
+// const router = useRouter();
 const gotoStore = () => {
   router.push("/buyer/index/store");
 };

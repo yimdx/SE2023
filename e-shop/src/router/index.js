@@ -13,7 +13,7 @@ import SellerRequest from "../views/Seller/request.vue"
 import AdminRequest from "../views/Admin/request.vue"
 import AdminUserView from "../views/Admin/user.vue"
 import BuyerPersonalInfo from "../views/Buyer/personalinfo.vue"
-import SellerPersonalInfo from "../views/Seller/personalinfo.vue"
+// import SellerPersonalInfo from "../views/Seller/personalinfo.vue"
 
 import Shelf from "../views/shelf.vue"
 import Cart from "../views/Buyer/cart.vue"
