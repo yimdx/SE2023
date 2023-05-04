@@ -76,7 +76,7 @@
 
 
 <script>
-import  {useCounterStore} from "../stores/counter"
+import  {useCounterStore} from "../../stores/counter"
 export default {
   data() {
     return {
@@ -160,7 +160,6 @@ export default {
         this.showInfo.startTime=row.startTime;
         this.showInfo.goods=row.goods;
         this.showInfo.status=row.status;
-        console.log(this.showInfo)
     }
     },
     handleDelete(index, row) {
@@ -176,11 +175,11 @@ export default {
       return row.status === value;
     },
     gotoShelf(){
-         if(this.showInfo.status!=="passed"){
+        if(this.showInfo.status!=="passed"){
             return ;
         }
       const counter=useCounterStore();
-     if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName);
+      if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName);
       else if (counter.userType==="seller") this.$router.push("/seller/index/shelf?shopName="+this.showInfo.shopName);
       else  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName);
         

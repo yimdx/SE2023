@@ -8,12 +8,15 @@ import BuyerHome from "../views/Buyer/index.vue"
 import BuyerLogin from "../views/Buyer/login.vue"
 import UserRegister  from  "../views/register.vue"
 import Store from "../views/store.vue"
+import MyStore from "../views/Seller/myStore.vue"
 import SellerRequest from "../views/Seller/request.vue"
 import AdminRequest from "../views/Admin/request.vue"
 import AdminUserView from "../views/Admin/user.vue"
 import BuyerPersonalInfo from "../views/Buyer/personalinfo.vue"
 import SellerPersonalInfo from "../views/Seller/personalinfo.vue"
 
+import Shelf from "../views/shelf.vue"
+import Cart from "../views/Buyer/cart.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,17 +45,19 @@ const router = createRouter({
           children:[
             {
               path:'store',
-              name:'adminstore',
               component:Store
             },
             {
+              path:'shelf',
+              component:Shelf
+
+            },
+            {
               path:'request',
-              name:'adminRequest',
               component:AdminRequest
             },
             {
               path:'user',
-              name:'adminUserView',
               component:AdminUserView
             },
           ]
@@ -79,6 +84,10 @@ const router = createRouter({
               component:Store
             },
             {
+              path:'/seller/index/myStore',
+              component:MyStore
+            },
+            {
               path:'/seller/index/request',
               component:SellerRequest
             },
@@ -86,7 +95,12 @@ const router = createRouter({
               path: '/seller/index/personalinfo',
               name: 'sellerPersonalInfo',
               component: SellerPersonalInfo
-            }
+            },
+            {
+              path:'/seller/index/shelf',
+              component:Shelf
+
+            },
           ]
         }
       ]
@@ -115,6 +129,19 @@ const router = createRouter({
               path: 'personalinfo',
               name: 'buyerPersonalInfo',
               component: BuyerPersonalInfo
+            },
+            {
+              path:'/buyer/index/store',
+              component:Store
+            },
+            {
+              path:'/buyer/index/shelf',
+              component:Shelf
+
+            },
+            {
+              path:'/buyer/index/cart',
+              component:Cart
             }
           ]
         }

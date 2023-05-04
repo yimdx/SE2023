@@ -51,3 +51,19 @@ export function identificationIDCheck(identificationID){
 export function initialFundCheck(initialFund){
     return RegExp("[0-9]*.[0-9]*$").test(initialFund);
 }
+
+export function goodsNameCheck(goodsName){
+    return RegExp("^[a-zA-z0-9_]{1,128}$").test(goodsName);
+}
+export function goodsDescriptionCheck(description){
+    return RegExp("^.{1,128}$").test(description);
+}
+export function pictureCheck(pictures){
+    return RegExp("^([a-zA-z]+://[^\s]*;){0,3}[a-zA-z]+://[^\s]*$").test(pictures);
+}
+export function priceCheck(price){
+    return RegExp("^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$").test(price);
+}
+export function stockCheck(stock){
+    return RegExp("^\\+?[1-9][0-9]*$").test(stock);
+}
