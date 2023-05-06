@@ -22,7 +22,7 @@
                   </span> -->
           <el-dropdown>
             <el-icon style="right: 2%;" color="#334155" size="170%"
-              ><setting
+              class="icon"><setting
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
@@ -56,6 +56,7 @@
                     <el-icon><Menu /></el-icon><span style="font-size:23px">Request</span>
                   </template>
                     <el-menu-item index="request" @click="gotoRequestPage"><span style="font-size:20px">Open A Store</span></el-menu-item>
+                    <el-menu-item index="request" @click="gotoRequestRecordPage"><span style="font-size:20px">Request Record</span></el-menu-item>         
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -94,6 +95,9 @@ const router = useRouter();
 const gotoRequestPage = () => {
   router.push("/seller/index/request");
 };
+const gotoRequestRecordPage =()=>{
+  router.push("/seller/index/requestRecord");
+};
 const gotoStore=()=>{
   router.push("/seller/index/store");
 }
@@ -107,6 +111,7 @@ const logout=()=>{
   //   bg_op.value=false;
   // }
   router.push("/");
+  window.localStorage.removeItem("token");
 };
 </script>
 
@@ -180,4 +185,16 @@ const logout=()=>{
 .menu{
   font-size: 25px;
 }
+@keyframes rot{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.icon:hover{
+  animation: rot 1s;
+}
+
 </style>

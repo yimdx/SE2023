@@ -18,7 +18,7 @@
         <div class="toolbar">
           <el-dropdown>
             <el-icon style="right: 2%;" color="#334155" size="170%"
-              ><setting
+             class="icon" ><setting
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
@@ -77,6 +77,8 @@ const logout=()=>{
   // }else{
   //   bg_op.value=false;
   // }
+  router.push("/");
+  window.localStorage.removeItem("token");
 };
 const goinfo=()=>{
   // not implemented
@@ -159,4 +161,17 @@ const gotoStore = () => {
 .menu{
   font-size: 25px;
 }
+
+@keyframes rot{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.icon:hover{
+  animation: rot 1s;
+}
+
 </style>

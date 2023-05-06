@@ -14,6 +14,8 @@ import AdminRequest from "../views/Admin/request.vue"
 import AdminUserView from "../views/Admin/user.vue"
 import Shelf from "../views/shelf.vue"
 import Cart from "../views/Buyer/cart.vue"
+import RequestRecord from '../views/Seller/requestRecord.vue'
+import GoodsRequest from '../views/Admin/goodsRequest.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -54,6 +56,10 @@ const router = createRouter({
               component:AdminRequest
             },
             {
+              path:'goodsRequest',
+              component:GoodsRequest
+            },
+            {
               path:'user',
               component:AdminUserView
             },
@@ -92,6 +98,10 @@ const router = createRouter({
               path:'/seller/index/shelf',
               component:Shelf
 
+            },
+            {
+              path:'/seller/index/requestRecord',
+              component:RequestRecord
             },
           ]
         }

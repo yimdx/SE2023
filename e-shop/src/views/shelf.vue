@@ -41,7 +41,7 @@
 </div>
 
 
-<div class="cart" >
+<div class="cart"  v-show="crossVisible">
      <el-badge :value="cartNum">
         <el-icon size="100" @click="gotoCart"><ShoppingCart />
     </el-icon> 
@@ -181,22 +181,25 @@
 </template>
 
 <script setup>
+import { ElNotification } from "element-plus";
 import  {useCounterStore} from "../stores/counter"
 import {useRouter} from "vue-router"
-import { onMounted ,ref,reactive} from "vue";
+import { onMounted ,ref,reactive,getCurrentInstance} from "vue";
 import { Goods ,ShoppingCart,Close} from "@element-plus/icons-vue";
 import {goodsNameCheck,goodsDescriptionCheck,priceCheck,pictureCheck,stockCheck} from "../utils/regressionCheck"
 const counter=useCounterStore();
 const userType=counter.userType;
+const userName=counter.userName;
 let canEdit=ref(false);
 const crossVisible=userType==="seller";
 const addGoodDialogVisible=ref(false);
 const showMoreVisible=ref(false);
 const router=useRouter();
 const {shopName} =router.currentRoute.value.query;
+let {proxy}= getCurrentInstance();
 let goodsList=[];
-let merchantName="";
-const cartNum=ref(0);
+let merchantName="Li Hua";
+const cartNum=ref(counter.cartNum);
 const newItem = reactive({
      name:"",
     description:"",
@@ -215,82 +218,49 @@ const showInfo=reactive({
 
 
 function getGoodsList(){
-    goodsList.push({
-        name:"apple",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:0,
-        submitStatus:"up"
-    });
-    goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-     goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
- goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-    goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-    goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-     goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-     goodsList.push({
-        name:"orange",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"down"
-    });
-    for(let i=0;i<10;i++){
-           goodsList.push({
-        name:"apple",
-        description:"sweet",
-        picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        price:1.05,
-        stock:3,
-        submitStatus:"up"
-    });
-    };
+
+  for(let i=0;i<10;i++){
+              goodsList.push({
+            name:"apple",
+            description:"sweet",
+            picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+            price:1.05,
+            stock:3,
+            submitStatus:"up"
+        });
+        };
+  proxy.$http
+      .post("/merchant/goodsList", {
+        shopName:shopName
+      })
+      .then(function (res) {
+         goodsList=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get GoodsList Failed(Something must go wrong!)",
+          type: "error",});
+      });
+     
+  
     //api get merchantName
-    merchantName="Li Hua";
+
+    proxy.$http.post("/getUserNameByShopName",{
+      shopName:shopName
+    }).then(function (res) {
+         merchantName=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get MerchantName Failed(Something must go wrong!)",
+          type: "error",});
+      });
 
     cartNum.value=counter.cartNum;
 };
@@ -345,14 +315,36 @@ function confirmAdd(){
         return;
     }
      console.log("stock check passed")
-    console.log("success add");
-    newItem.name="";
-    newItem.description="";
-    newItem.picture="";
-    newItem.price="";
-    newItem.stock="";
 
-    addGoodDialogVisible.value=false;
+    proxy.$http
+      .post("/merchant/goodsList/add/commit", {
+        userName:userName, 
+        shopName:shopName,
+        name:newItem.name,
+        discription:newItem.description, 
+        picture:newItem.picture, 
+        price: parseFloat(newItem.price),
+        stock :parseInt(newItem.stock)
+      })
+      .then(function (res) {
+         console.log("success add");
+        newItem.name="";
+        newItem.description="";
+        newItem.picture="";
+        newItem.price="";
+        newItem.stock="";
+
+        addGoodDialogVisible.value=false;
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Add Commodity Failed(Something must go wrong!)",
+          type: "error",});
+
+      });
+   
 }
 
 function confirmUpdate(){
@@ -394,6 +386,37 @@ function confirmUpdate(){
      && newItem.picture === showInfo.picture){
         return;
      }
+
+      proxy.$http
+      .post("/merchant/goodsList/alter/commit", {
+        userName:userName, 
+        shopName:shopName,
+        name:newItem.name,
+        discription:newItem.description, 
+        picture:newItem.picture, 
+        price: parseFloat(newItem.price),
+        stock :parseInt(newItem.stock)
+      })
+      .then(function (res) {
+         console.log("success alter");
+        newItem.name="";
+        newItem.description="";
+        newItem.picture="";
+        newItem.price="";
+        newItem.stock="";
+          ElNotification({
+          title: "Success",
+          message: "Update Commodity Information Submitted",
+          type: "success",});
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Update Commodity Information Failed(Something must go wrong!)",
+          type: "error",});
+
+      });
     console.log("success update");
 
 }
@@ -418,12 +441,34 @@ function editShow(){
 }
 function deleteGood(item,index){
     //api delete good
-    alert(item.name);
+
+      proxy.$http
+      .post("/merchant/goodsList/delete", {
+        userName:userName, 
+        shopName:shopName,
+        name:item.name
+      })
+      .then(function (res) {
+         console.log("success delete");
+          ElNotification({
+          title: "Success",
+          message: "Delete Commodity Passed",
+          type: "success",});
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Delete Commodity  Failed(Something must go wrong!)",
+          type: "error",});
+      });
 }
 function addCart(item,index){
+  if(userType!=='buyer'){return;}
     if(item.stock===0){
         return;
     }
+    if(item.submitStatus==="down") return;
     let flag=false;
     let idx=-1;
     counter.cart.forEach((o,index)=>{
@@ -449,6 +494,7 @@ function addCart(item,index){
     counter.cartNum++;
     console.log(counter.cart)
      cartNum.value=counter.cartNum;
+     counter.totalCost+=item.price;
 }
 function gotoCart(){
     router.push("/buyer/index/cart");
@@ -523,17 +569,43 @@ overflow-x:hidden;
 position: relative;
  margin: 0;
  padding: 12px;
- background: red;
+ border-radius: 10px 0px 0px 10px;
  height: 176px;
  width: 50%;
+ background: linear-gradient(270deg,rgba(155, 236, 232, 0.5),rgba(239, 197, 243, 0.5));
+  background-size: 200% 200%;
+  background-position: 0 0;
+  animation: bgposition 4s infinite linear alternate;
+
+}
+@keyframes bgposition {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 .right{
     position: relative;
  margin: 0;
  padding: 12px;
- background: blue;
+ border-radius: 0px 10px 10px 0px;
+  background: linear-gradient(270deg,rgba(233, 247, 162, 0.8),rgba(220, 176, 223, 0.7));
+  background-size: 200% 200%;
+  background-position: 0 0;
+  animation: bgposition2 3s infinite linear alternate;
  height: 176px;
  width: 50%;
+}
+
+@keyframes bgposition2 {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
 }
 .body{
     position: absolute;
@@ -599,6 +671,10 @@ position: relative;
     height: 100px;
     width: 100px;
 }
+.cart:hover{
+  cursor: pointer;
+  transform: scale(1.05);
+}
 .addForm{
     position: fixed;
     
@@ -616,8 +692,8 @@ position: relative;
 }
 .hint{
     position: absolute;
-    right: -93%;
-    width: 90%;
+    right: -63%;
+    width: 60%;
     height: 60px;
     border-radius: 5px;
     margin:10px;
@@ -626,8 +702,8 @@ position: relative;
 }
 .hint-long{
     position: absolute;
-    right: -93%;
-    width: 90%;
+    right: -63%;
+    width: 60%;
     height: 60px;
     border-radius: 5px;
     margin:10px;

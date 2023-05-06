@@ -22,7 +22,7 @@
                   </span> -->
           <el-dropdown>
             <el-icon style="right: 2%;" color="#334155" size="170%"
-              ><setting
+             class="icon" ><setting
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
@@ -44,26 +44,29 @@
               :router='true'>
                 <el-sub-menu index="1">
                   <template #title>
-                    <el-icon><message /></el-icon>All Users
+                    <el-icon><message /></el-icon><span style="font-size:25px">All Users</span>
                   </template>
                   <el-menu-item-group>
-                    <template #title>Merchant</template>
-                    <el-menu-item index="1-2">merchents</el-menu-item>
+                    <template #title><span style="font-size:23px">Merchant</span></template>
+                    <el-menu-item index="1-2"><span style="font-size:20px">merchents</span></el-menu-item>
                   </el-menu-item-group>
-                  <el-menu-item-group title="User">
-                    <el-menu-item index="1-3">users</el-menu-item>
+                  <el-menu-item-group >
+                      <template #title><span style="font-size:23px">User</span></template>
+                    <el-menu-item index="1-3"><span style="font-size:20px">users</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
                 <el-sub-menu index="2">
                   <template #title>
-                    <el-icon><icon-menu /></el-icon>All Stores
+                    <el-icon><icon-menu /></el-icon><span style="font-size:25px">All Stores</span>
                   </template>
                   <el-menu-item-group>
-                    <template #title>Store</template>
-                    <el-menu-item index="store" @click="goto('/seller/index/store')">stores</el-menu-item>
+                    <template #title><span style="font-size:23px">Store</span></template>
+                    <el-menu-item index="store" @click="goto('/seller/index/store')"><span style="font-size:20px">stores</span></el-menu-item>
                   </el-menu-item-group>
-                  <el-menu-item-group title="Request">
-                    <el-menu-item index="request" @click="gotoRequestPage">requests</el-menu-item>
+                  <el-menu-item-group >
+                      <template #title><span style="font-size:23px">Request</span></template>
+                    <el-menu-item index="request" @click="gotoRequestPage"><span style="font-size:20px">Store Requests</span></el-menu-item>
+                     <el-menu-item index="request" @click="gotoGoodsRequestPage"><span style="font-size:20px">Goods Requests</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
               </el-menu>
@@ -98,6 +101,9 @@ const router = useRouter();
 const gotoRequestPage = () => {
   router.push("/admin/index/request");
 };
+const gotoGoodsRequestPage=()=>{
+  router.push("/admin/index/goodsRequest");
+}
 const gotoStore=()=>{
   router.push("/admin/index/store");
 }
@@ -108,6 +114,7 @@ const logout=()=>{
   //   bg_op.value=false;
   // }
   router.push("/");
+  window.localStorage.removeItem("token");
 };
 </script>
 
@@ -182,4 +189,16 @@ const logout=()=>{
 .menu{
   font-size: 25px;
 }
+@keyframes rot{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.icon:hover{
+  animation: rot 1s;
+}
+
 </style>
