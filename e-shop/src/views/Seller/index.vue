@@ -88,7 +88,7 @@ const changesettings=()=>{
 };
 
 const goinfo=()=>{
-  // not implemented
+  router.push("/seller/index/personalinfo");
 };
 const router = useRouter();
 const gotoRequestPage = () => {

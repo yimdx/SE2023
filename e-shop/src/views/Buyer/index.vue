@@ -22,9 +22,9 @@
             /></el-icon>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click.enter="goinfo">Your Information</el-dropdown-item>
-                <el-dropdown-item @click.enter="changesettings">Settings</el-dropdown-item>
-                <el-dropdown-item @click.enter="logout">Signed Out</el-dropdown-item>
+                <el-dropdown-item @click.native="goInfo">Your Information</el-dropdown-item>
+                <el-dropdown-item @click="changesettings">Settings</el-dropdown-item>
+                <el-dropdown-item @click="logout">Signed Out</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

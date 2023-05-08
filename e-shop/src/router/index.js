@@ -12,9 +12,13 @@ import MyStore from "../views/Seller/myStore.vue"
 import SellerRequest from "../views/Seller/request.vue"
 import AdminRequest from "../views/Admin/request.vue"
 import AdminUserView from "../views/Admin/user.vue"
-import BuyerPersonalInfo from "../views/Buyer/personalinfo.vue"
-// import SellerPersonalInfo from "../views/Seller/personalinfo.vue"
-
+import BuyerPersonalInfo from "../views/Buyer/personalInfo.vue"
+import SellerPersonalInfo from "../views/Seller/personalInfo.vue"
+import BuyerPersonalAccount from "../views/Buyer/personalAccout.vue"
+import SellerPersonalAccount from "../views/Seller/personalAccout.vue"
+import SellerShopAccount from "../views/Seller/shopAccount.vue"
+import AdminMedianAccount from "../views/Admin/medianAccout.vue"
+import AdminProfitAccount from "../views/Admin/profitAccout.vue"
 import Shelf from "../views/shelf.vue"
 import Cart from "../views/Buyer/cart.vue"
 const router = createRouter({
@@ -60,6 +64,14 @@ const router = createRouter({
               path:'user',
               component:AdminUserView
             },
+            {
+              path:'/admin/index/medianaccount',
+              component:AdminMedianAccount
+            },
+            {
+              path:'/admin/index/profitaccount',
+              component:AdminProfitAccount
+            },
           ]
         }
       ]
@@ -99,7 +111,14 @@ const router = createRouter({
             {
               path:'/seller/index/shelf',
               component:Shelf
-
+            },
+            {
+              path:'/seller/index/personalaccount',
+              component:SellerPersonalAccount
+            },
+            {
+              path:'/seller/index/shopaccount',
+              component:SellerShopAccount
             },
           ]
         }
@@ -126,8 +145,7 @@ const router = createRouter({
               component:Store
             },
             {
-              path: 'personalinfo',
-              name: 'buyerPersonalInfo',
+              path: '/buyer/index/personalinfo',
               component: BuyerPersonalInfo
             },
             {
@@ -142,7 +160,11 @@ const router = createRouter({
             {
               path:'/buyer/index/cart',
               component:Cart
-            }
+            },
+            {
+              path:'/buyer/index/personalaccount',
+              component:BuyerPersonalAccount
+            },
           ]
         }
       ]

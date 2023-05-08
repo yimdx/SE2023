@@ -2,15 +2,15 @@
   <div class="all">
     <div class="card">
     <el-card>
-      <el-descriptions title = 'Profile' style="width: 600px" :column="1" :border='true'>
+      <el-descriptions title = 'MyAcocount' style="width: 600px" :column="1" :border='true'>
           <template #extra>
-          <el-button type='primary' size='middle' @click="showConfirmCodeDialog">modify</el-button>
+          <el-button type='primary' size='middle' @click="showConfirmCodeDialog">Recharge</el-button>
           </template>
-        <el-descriptions-item label = 'User'>
+        <el-descriptions-item label = 'Account'>
           <i class="el-icon-user"></i>
           {{ username }}
         </el-descriptions-item>
-        <el-descriptions-item label = 'Email'>
+        <el-descriptions-item label = 'Balance'>
           <i class="el-icon-message"></i>
           {{ emailPrefix }}@{{emailSuffix}}
         </el-descriptions-item>
@@ -30,47 +30,14 @@
     <el-dialog v-model="dialogVisible" title="modify your personal information" draggable>
       <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
         <el-form :inline="true">
-          <el-form-item label="UserName">
-            <el-input v-model="username"></el-input>
-          </el-form-item>
-          <el-form-item label="PassWord">
-            <el-input v-model="password" show-password></el-input>
-          </el-form-item>
-          <el-form-item label="CertifyPassword">
-            <el-input v-model="certifyPassword" show-password></el-input>
-          </el-form-item>
-          <el-form-item label="PhoneNumber">
-            <el-input v-model="phoneNumber"></el-input>
-          </el-form-item>
-          <el-form-item label="IdCode">
-            <el-input v-model="idCode" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="Email">
-           <div style="display:flex">
-             <div class="prefix">
-              <el-input
-              class="input-box"
-                v-model="emailPrefix"
-                placeholder="Email Username"
-                clearable
-              />
-              </div>
-              <span>&nbsp; @ &nbsp;</span>
-              <div class="suffix">
-                <el-input
-                class="input-box"
-                  v-model="emailSuffix"
-                  placeholder="Email Address"
-                  clearable
-                />
-              </div>
-            </div>
+          <el-form-item label="Recharge Money">
+            <el-input v-model="rechargeMoney" placeholder="1000.00 at least"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cancelModify()">Cancel</el-button>
-        <el-button type="primary" @click="confirmModify()">Confirm</el-button>
+        <el-button @click="cancelRecharge()">Cancel</el-button>
+        <el-button type="primary" @click="confirmRecharge()">Confirm</el-button>
       </span>
     </el-dialog>
     </div>
@@ -86,18 +53,12 @@ import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../
 
 let { proxy } = getCurrentInstance();
 
-const errorMsg = ref("");
-const username = ref("myname");
-const phoneNumber = ref("65535");
-const emailPrefix = ref("200");
-const emailSuffix = ref("fdu.edu.cn");
-const idCode = ref("65535");
-const password = ref("");
-const certifyPassword = ref("");
+
+const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
 
-function getPersonalInfo(){
+function getAccount(){
   username.value = "myname";
   phoneNumber.value = "65535";
   emailPrefix.value = "200";
@@ -106,54 +67,27 @@ function getPersonalInfo(){
   password.value = "";
   certifyPassword.value = "";
 };
-getPersonalInfo();
+getAccount();
 
 const showConfirmCodeDialog = () => {
   // 显示对话框
   dialogVisible.value = true;
 };
-const cancelModify = () =>{
-  getPersonalInfo();
+const cancelRecharge = () =>{
+  getAccount();
   dialogVisible.value = false;
 }
-const confirmModify = () => {
-  if(!usernameCheck(username.value)){
-     ElNotification({
-      title: "Error",
-      message: "Invalid Username!",
-      type: "error",
-    });
-    username.value ="";
-  }else if(!passwordCheck(password.value)){
-      ElNotification({
-      title: "Error",
-      message: "Invalid Password!",
-      type: "error",
-    });
-    password.value = "";
-  }else if(!(password.value=== certifyPassword.value )){
-      ElNotification({
-      title: "Error",
-      message: "Password Confirmation failed.",
-      type: "error",
-    });
-    certifyPassword.value="";
-  }else if(!emailCheck(emailPrefix.value+"@"+emailSuffix.value)){
-     ElNotification({
-      title: "Error",
-      message: "Invalid email",
-      type: "error",});
-    emailPrefix.value="";
-    emailSuffix.value="";
-  }else if(!phoneCheck(phoneNumber.value)){
-     ElNotification({
-      title: "Error",
-      message: "Invalid phone number",
-      type: "error",});
-    phoneNumber.value="";
-  }
-  else
-  {
+const confirmRecharge = () => {
+//   if(!usernameCheck(username.value)){
+//      ElNotification({
+//       title: "Error",
+//       message: "Invalid Username!",
+//       type: "error",
+//     });
+//     username.value ="";
+//   }
+//   else
+//   {
     // proxy.$http
     //   .post("/register", {
     //     username: username.value,
@@ -176,8 +110,8 @@ const confirmModify = () => {
     //       message: "Register Failed(maybe username not unique)",
     //       type: "error",});
     //   });
-  }
-  getPersonalInfo();
+//   }
+  getAccount();
   dialogVisible.value = false;
 }
 </script>
