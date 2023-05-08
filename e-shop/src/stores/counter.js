@@ -6,5 +6,6 @@ export const useCounterStore = defineStore('counter', () => {
   let userType =ref("");
   let cart=reactive([]);
   let cartNum=ref(0);
-  return {userName,userType,cart,cartNum}
+  let totalCost=ref(0.0);
+  return {userName,userType,cart,cartNum,totalCost}
 })

@@ -21,6 +21,8 @@ import AdminMedianAccount from "../views/Admin/medianAccout.vue"
 import AdminProfitAccount from "../views/Admin/profitAccout.vue"
 import Shelf from "../views/shelf.vue"
 import Cart from "../views/Buyer/cart.vue"
+import RequestRecord from '../views/Seller/requestRecord.vue'
+import GoodsRequest from '../views/Admin/goodsRequest.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -59,6 +61,10 @@ const router = createRouter({
             {
               path:'request',
               component:AdminRequest
+            },
+            {
+              path:'goodsRequest',
+              component:GoodsRequest
             },
             {
               path:'user',
@@ -119,6 +125,10 @@ const router = createRouter({
             {
               path:'/seller/index/shopaccount',
               component:SellerShopAccount
+            },
+            {
+              path:'/seller/index/requestRecord',
+              component:RequestRecord
             },
           ]
         }

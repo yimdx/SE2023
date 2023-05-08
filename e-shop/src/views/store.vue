@@ -41,7 +41,7 @@
     </el-table>
 
     <el-dialog v-model="showMoreVisible" title="Store Info">
-        <el-button @click="gotoShelf">Shelf</el-button>
+        <div @click="gotoShelf" class="gotoShelf">Go to Shelf</div>
         <el-descriptions title="" :column="3" border>
     <el-descriptions-item
       label="ShopName"
@@ -182,8 +182,8 @@ export default {
       const counter=useCounterStore();
      if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName);
       else if (counter.userType==="seller") this.$router.push("/seller/index/shelf?shopName="+this.showInfo.shopName);
-      else  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName);
-        
+      else if(counter.userType==='buyer')  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName);
+      else  this.$router.push("/");
     }
   },
 };
@@ -196,5 +196,18 @@ export default {
 .el-table {
   margin-top: 15px;
   font-size: 12px;
+}
+.gotoShelf{
+  position: absolute;
+  color: rgb(21, 238, 254);
+  cursor: pointer;
+  font-size: 20px;
+  margin-bottom: 5px;
+  right: 7%;
+  top:30%;
+}
+.gotoShelf:hover{
+  color: rgb(21, 103, 107);
+  text-decoration: underline;
 }
 </style>
