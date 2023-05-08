@@ -1,9 +1,9 @@
 <template>
   <div class="all">
-    <div v-for="account in shopaccounts" v-bind:key="account">
+    <el-col span="1" v-for="account in shopAccountList" v-bind:key="account">
         <div class="card">
         <el-card>
-        <el-descriptions title = 'MyAcocount' style="width: 600px" :column="1" :border='true'>
+        <el-descriptions title = 'ShopAcocount' style="width: 600px" :column="1" :border='true'>
             <template #extra>
             <el-button type='primary' size='middle' @click="showRechargeDialog(account)">Recharge</el-button>
             </template>
@@ -34,13 +34,13 @@
         </span>
         </el-dialog>
         </div>
-    </div>
+    </el-col>
   </div>
 </template>
 
 <script setup>
 import { ElNotification } from "element-plus";
-import { ref, getCurrentInstance } from "vue";
+import { onMounted, reactive, ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
@@ -88,39 +88,6 @@ const cancelRecharge = () =>{
   rechargeMoney.value = 0;
 }
 const confirmRecharge = () => {
-//   if(!usernameCheck(username.value)){
-//      ElNotification({
-//       title: "Error",
-//       message: "Invalid Username!",
-//       type: "error",
-//     });
-//     username.value ="";
-//   }
-//   else
-//   {
-    // proxy.$http
-    //   .post("/register", {
-    //     username: username.value,
-    //     password: password.value,
-    //     idNumber: idCode.value,
-    //     phoneNumber:phoneNumber.value,
-    //     email:emailPrefix.value+"@"+emailSuffix.value
-    //   })
-    //   .then(function (res) {
-    //     router.push('/');
-    //      ElNotification({
-    //       title: "Success",
-    //       message: "Confirm PersonalInfo Change",
-    //       type: "success",});
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //     ElNotification({
-    //       title: "Error",
-    //       message: "Register Failed(maybe username not unique)",
-    //       type: "error",});
-    //   });
-//   }
   rechargeMoney.value = 0;
   dialogVisible.value = false;
 }

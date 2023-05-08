@@ -2,32 +2,21 @@
   <div class="all">
     <div class="card">
     <el-card>
-      <el-descriptions title = 'MyAcocount' style="width: 600px" :column="1" :border='true'>
-          <template #extra>
-          <el-button type='primary' size='middle' @click="showConfirmCodeDialog">Recharge</el-button>
-          </template>
+      <el-descriptions title = 'MedianAcocount' style="width: 600px" :column="1" :border='true'>
         <el-descriptions-item label = 'Account'>
           <i class="el-icon-user"></i>
-          {{ username }}
+          {{ account }}
         </el-descriptions-item>
         <el-descriptions-item label = 'Balance'>
           <i class="el-icon-message"></i>
-          {{ emailPrefix }}@{{emailSuffix}}
-        </el-descriptions-item>
-        <el-descriptions-item label = 'Phone'>
-          <i class="el-icon-mobile-phone"></i>
-          {{ phoneNumber }}
-        </el-descriptions-item>
-        <el-descriptions-item label = 'IdCode'>
-          <i class="el-icon-location-outline"></i>
-          {{ idCode }}
+          {{ balance }}
         </el-descriptions-item>
       </el-descriptions>
     </el-card>
     </div>
     <div class="dialog">
     <!-- 修改对话框 -->
-    <el-dialog v-model="dialogVisible" title="modify your personal information" draggable>
+    <el-dialog v-model="dialogVisible" title="Recharge" draggable>
       <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
         <el-form :inline="true">
           <el-form-item label="Recharge Money">
@@ -53,19 +42,15 @@ import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../
 
 let { proxy } = getCurrentInstance();
 
-
+const account = ref("");
+const balance = ref("");
 const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
 
 function getAccount(){
-  username.value = "myname";
-  phoneNumber.value = "65535";
-  emailPrefix.value = "200";
-  emailSuffix.value = "fdu.edu.cn";
-  idCode.value = "65535";
-  password.value = "";
-  certifyPassword.value = "";
+  account.value = "mynaccount";
+  balance.value = "65535";
 };
 getAccount();
 
@@ -78,39 +63,6 @@ const cancelRecharge = () =>{
   dialogVisible.value = false;
 }
 const confirmRecharge = () => {
-//   if(!usernameCheck(username.value)){
-//      ElNotification({
-//       title: "Error",
-//       message: "Invalid Username!",
-//       type: "error",
-//     });
-//     username.value ="";
-//   }
-//   else
-//   {
-    // proxy.$http
-    //   .post("/register", {
-    //     username: username.value,
-    //     password: password.value,
-    //     idNumber: idCode.value,
-    //     phoneNumber:phoneNumber.value,
-    //     email:emailPrefix.value+"@"+emailSuffix.value
-    //   })
-    //   .then(function (res) {
-    //     router.push('/');
-    //      ElNotification({
-    //       title: "Success",
-    //       message: "Confirm PersonalInfo Change",
-    //       type: "success",});
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //     ElNotification({
-    //       title: "Error",
-    //       message: "Register Failed(maybe username not unique)",
-    //       type: "error",});
-    //   });
-//   }
   getAccount();
   dialogVisible.value = false;
 }

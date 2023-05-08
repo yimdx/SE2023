@@ -59,6 +59,16 @@
                     <el-menu-item index="request" @click="gotoRequestRecordPage"><span style="font-size:20px">Request Record</span></el-menu-item>         
                   </el-menu-item-group>
                 </el-sub-menu>
+                <el-sub-menu index="2">
+                  <template #title>
+                    <el-icon><icon-menu /></el-icon><span style="font-size:25px">All Accounts</span>
+                  </template>
+                  <el-menu-item-group>
+                      <template #title><span style="font-size:23px">Account</span></template>
+                    <el-menu-item index="account" @click="gotoPersonalAccountPage"><span style="font-size:20px">Personal Account</span></el-menu-item>
+                     <el-menu-item index="account" @click="gotoShopAccountPage"><span style="font-size:20px">Shop Account</span></el-menu-item>
+                  </el-menu-item-group>
+                </el-sub-menu>
               </el-menu>
               <!-- </div> -->
             </el-scrollbar>
@@ -103,6 +113,12 @@ const gotoStore=()=>{
 }
 const gotoMyStore=()=>{
   router.push("/seller/index/myStore");
+}
+const gotoPersonalAccountPage=()=>{
+  router.push("/seller/index/personalaccount");
+}
+const gotoShopAccountPage=()=>{
+  router.push("/seller/index/shopaccount");
 }
 const logout=()=>{
   // if(bg_op.value==false){

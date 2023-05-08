@@ -47,6 +47,15 @@
                     <el-menu-item index="store" @click="gotoStore"><span style="font-size:20px">Stores</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
+                <el-sub-menu index="2">
+                  <template #title>
+                    <el-icon><icon-menu /></el-icon><span style="font-size:25px">All Accounts</span>
+                  </template>
+                  <el-menu-item-group>
+                    <template #title><span style="font-size:23px">Account</span></template>
+                    <el-menu-item index="account" @click="gotoPersonalAccountPage"><span style="font-size:20px">Personal Account</span></el-menu-item>
+                  </el-menu-item-group>
+                </el-sub-menu>
               </el-menu>
               <!-- </div> -->
             </el-scrollbar>
@@ -89,6 +98,9 @@ const goInfo=()=>{
 const gotoStore = () => {
   router.push("/buyer/index/store");
 };
+const gotoPersonalAccountPage=()=>{
+  router.push("/buyer/index/personalaccount");
+}
 
 </script>
 

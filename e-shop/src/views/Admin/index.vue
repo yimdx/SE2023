@@ -69,6 +69,16 @@
                      <el-menu-item index="request" @click="gotoGoodsRequestPage"><span style="font-size:20px">Goods Requests</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
+                <el-sub-menu index="3">
+                  <template #title>
+                    <el-icon><icon-menu /></el-icon><span style="font-size:25px">All Accounts</span>
+                  </template>
+                  <el-menu-item-group>
+                      <template #title><span style="font-size:23px">Account</span></template>
+                    <el-menu-item index="account" @click="gotoMedianAccountPage"><span style="font-size:20px">Median Account</span></el-menu-item>
+                     <el-menu-item index="account" @click="gotoProfitAccountPage"><span style="font-size:20px">Profit Account</span></el-menu-item>
+                  </el-menu-item-group>
+                </el-sub-menu>
               </el-menu>
               <!-- </div> -->
             </el-scrollbar>
@@ -106,6 +116,12 @@ const gotoGoodsRequestPage=()=>{
 }
 const gotoStore=()=>{
   router.push("/admin/index/store");
+}
+const gotoMedianAccountPage=()=>{
+  router.push("/admin/index/medianaccount");
+}
+const gotoProfitAccountPage=()=>{
+  router.push("/admin/index/profitaccount");
 }
 const logout=()=>{
   // if(bg_op.value==false){

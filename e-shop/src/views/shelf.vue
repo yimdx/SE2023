@@ -201,7 +201,7 @@ let goodsList=[];
 let merchantName="Li Hua";
 const cartNum=ref(counter.cartNum);
 const newItem = reactive({
-     name:"",
+    name:"",
     description:"",
     picture:"",
     price:"",
