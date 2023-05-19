@@ -65,7 +65,7 @@ export default {
   },
   methods: {
       async getStoreList () {
-      const { data: res } = await this.$http.post('/admin/index/stores', {
+      const { data: res } = await this.$http.post('/admin/checkOpenningRequest', {
          params: this.queryInfo
       })
       if (res.meta.status !== 200) return this.$message.error('getting store list failed')
@@ -75,7 +75,7 @@ export default {
 
       approveRequest(index){
          this.$http
-         .post('/store/request',
+         .post('/admin/checkOpenningRequest/Passed',
           this.storelist[index]
          )
          .then(function (res) {

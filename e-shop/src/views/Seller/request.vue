@@ -61,6 +61,16 @@
             ><el-input class="input-box" v-model="shopIntro" placeholder="A brief shop introduction" clearable
           /></el-tooltip>
         </div>
+
+        <div class="input">
+          <el-icon class="myIcon"><CreditCard /></el-icon>
+          <el-tooltip
+            effect="customized"
+            content="sentences"
+            placement="right"
+            ><el-input class="input-box" v-model="goodsType" placeholder="goods types" clearable
+          /></el-tooltip>
+        </div>
          
          <div class="btn">
           <el-button class="btn-c" size="large" round @click="request"><span style="font-size:22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></el-button>
@@ -92,6 +102,7 @@ const address = ref("");
 const identificationID = ref("");
 const shopIntro = ref("");
 const initialFund = ref("");
+const goodsType = ref("");
 const request=()=>{
   if(!shopNameCheck(shopName.value)){
      ElNotification({
@@ -123,12 +134,13 @@ const request=()=>{
   else
   {
     proxy.$http
-      .post("/seller/request", {
+      .post("/store/request/commit", {
         shopName: shopName.value,
         identificationID: identificationID.value,
         address: address.value,
         initialFund: initialFund.value,
         shopIntro:shopIntro.value,
+        goodsType:goodsType.value
       })
       .then(function (res) {
         console.log(res.data);

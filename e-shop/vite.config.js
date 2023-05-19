@@ -17,7 +17,7 @@ export default defineConfig({
     // 反向代理，跨域
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // 后端部署地址
+        target: 'http://127.0.0.1:3000', // 后端部署地址
         changeOrigin: true, // 跨域
         rewrite: path => path.replace(/^\/api/, '')
       }

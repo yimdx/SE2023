@@ -36,7 +36,7 @@ export function emailCheck(email){
 }
 
 export function shopNameCheck(username){
-    return RegExp("^[a-zA-z0-9_]{3,10}$").test(username);
+    return RegExp("^[a-zA-z0-9_]{1,12}$").test(username);
 }
 
 export function addressCheck(address){
