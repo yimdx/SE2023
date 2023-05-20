@@ -74,6 +74,20 @@ function getShopAccount(){
         balance:1000.00,
       }
   );
+  proxy.$http
+      .post("/seller/shopAccount", {
+      })
+      .then(function (res) {
+         shopAccountList=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get Account Failed(Something must go wrong!)",
+          type: "error",});
+      });
 };
 getShopAccount();
 
@@ -88,6 +102,22 @@ const cancelRecharge = () =>{
   rechargeMoney.value = 0;
 }
 const confirmRecharge = () => {
+  proxy.$http
+      .post("/seller/shopAccount/recharge", {
+        account: accountInfo.account,
+        recharge: rechargeMoney.value
+      })
+      .then(function (res) {
+         account=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Recharge Failed(Something must go wrong!)",
+          type: "error",});
+      });
   rechargeMoney.value = 0;
   dialogVisible.value = false;
 }

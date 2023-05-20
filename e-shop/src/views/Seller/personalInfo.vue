@@ -105,6 +105,27 @@ function getPersonalInfo(){
   idCode.value = "65535";
   password.value = "";
   certifyPassword.value = "";
+  proxy.$http
+      .post("/seller/personalAccount", {
+      })
+      .then(function (res) {
+          let user =res.data.result;
+          username.value = user.username;
+          phoneNumber.value = user.phoneNumber;
+          emailPrefix.value = user.emailPrefix;
+          emailSuffix.value = user.emailSuffix;
+          idCode.value = user.idCode;
+          password.value = user.password;
+          certifyPassword.value = user.certifyPassword;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get Account Failed(Something must go wrong!)",
+          type: "error",});
+      });
 };
 getPersonalInfo();
 
@@ -154,28 +175,27 @@ const confirmModify = () => {
   }
   else
   {
-    // proxy.$http
-    //   .post("/register", {
-    //     username: username.value,
-    //     password: password.value,
-    //     idNumber: idCode.value,
-    //     phoneNumber:phoneNumber.value,
-    //     email:emailPrefix.value+"@"+emailSuffix.value
-    //   })
-    //   .then(function (res) {
-    //     router.push('/');
-    //      ElNotification({
-    //       title: "Success",
-    //       message: "Confirm PersonalInfo Change",
-    //       type: "success",});
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //     ElNotification({
-    //       title: "Error",
-    //       message: "Register Failed(maybe username not unique)",
-    //       type: "error",});
-    //   });
+    proxy.$http
+      .post("/seller/personalInfo/modify", {
+        username: username.value,
+        password: password.value,
+        phoneNumber:phoneNumber.value,
+        email:emailPrefix.value+"@"+emailSuffix.value
+      })
+      .then(function (res) {
+        router.push('/seller/personalInfo');
+         ElNotification({
+          title: "Success",
+          message: "Confirm PersonalInfo Change",
+          type: "success",});
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Modify Failed(maybe username not unique)",
+          type: "error",});
+      });
   }
   getPersonalInfo();
   dialogVisible.value = false;

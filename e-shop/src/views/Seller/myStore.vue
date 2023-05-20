@@ -164,6 +164,17 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+      proxy.$http.post("/merchant/store/delate",{
+      shopName:row.shopName
+    }).then(function (res) {
+      })
+      .catch(function (error) {
+        console.log(error);
+        ElNotification({
+          title: "Error",
+          message: "Delete Failed(Something must go wrong!)",
+          type: "error",});
+      });
     },
     getTag(index,row) {
       let status = row.status;

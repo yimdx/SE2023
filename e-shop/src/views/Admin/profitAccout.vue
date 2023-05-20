@@ -51,6 +51,22 @@ const dialogVisible = ref(false);
 function getAccount(){
   account.value = "mynaccount";
   balance.value = "65535";
+  proxy.$http
+  .post("/admin/profitAccount", {
+      })
+      .then(function (res) {
+         let profitaccount=res.data.result;
+         account.value = profitaccount.account;
+         balance.value = profitaccount.balance;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get Account Failed(Something must go wrong!)",
+          type: "error",});
+      });
 };
 getAccount();
 

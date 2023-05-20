@@ -8,11 +8,11 @@
           </template>
         <el-descriptions-item label = 'Account'>
           <i class="el-icon-user"></i>
-          {{ account }}
+          {{ account.account }}
         </el-descriptions-item>
         <el-descriptions-item label = 'Balance'>
           <i class="el-icon-message"></i>
-          {{ balance }}
+          {{ account.balance }}
         </el-descriptions-item>
       </el-descriptions>
     </el-card>
@@ -45,15 +45,32 @@ import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../
 
 let { proxy } = getCurrentInstance();
 
-const account = ref("");
-const balance = ref("");
+let account = {
+    account:"",
+    balance:"",
+}
+
 const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
 
 function getAccount(){
-  account.value = "mynaccount";
-  balance.value = "65535";
+  account.account = "mynaccount";
+  account.balance = "65535";
+  proxy.$http
+      .post("/seller/personalAccount", {
+      })
+      .then(function (res) {
+         account=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Get Account Failed(Something must go wrong!)",
+          type: "error",});
+      });
 };
 getAccount();
 
@@ -66,6 +83,22 @@ const cancelRecharge = () =>{
   dialogVisible.value = false;
 }
 const confirmRecharge = () => {
+    proxy.$http
+      .post("/seller/personalAccount/recharge", {
+        account: account.account,
+        recharge: rechargeMoney.value
+      })
+      .then(function (res) {
+         account=res.data.result;
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+        ElNotification({
+          title: "Error",
+          message: "Recharge Failed(Something must go wrong!)",
+          type: "error",});
+      });
   getAccount();
   dialogVisible.value = false;
 }

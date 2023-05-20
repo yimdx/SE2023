@@ -1,5 +1,6 @@
 <template>
    <el-card>
+      <div class="tableName">Opening Requset :</div>
       <el-table :data="storelist" border stripe>
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
@@ -16,7 +17,25 @@
             </template>
          </el-table-column>
     </el-table>
+    <div class="tableName">Deleting Requset :</div>
+    <el-table :data="storelist" border stripe>
+         <el-table-column type="index"></el-table-column>
+         <el-table-column label="ShopName" prop="shopName"></el-table-column>
+         <el-table-column label="Address" prop="address"></el-table-column>
+         <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+         <el-table-column label="StartTime" prop="startTime"></el-table-column>
+         <el-table-column label="Goods" prop="goods"></el-table-column>
+         <el-table-column label="status" prop="status"></el-table-column>
+         <el-table-column label="action">
+            <template v-slot="scope">
+            <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
+               <el-button type="warning" size="mini" @click="approveRequest(scope.row.index)">Approve</el-button>
+            </el-tooltip>
+            </template>
+         </el-table-column>
+    </el-table>
    </el-card>
+
 </template>
 
 
@@ -57,11 +76,18 @@ export default {
                    startTime: "starttime",
                    goods: "no goods",
                    status: "submitted" }],
-      total: 0
+      total: 0,
+      deltestorelist: [{shopName: "testshop", 
+                   address: "address",
+                   shopInfo: "shopinfo",
+                   startTime: "starttime",
+                   goods: "no goods",
+                   status: "submitted" }],
     }
   },
   created () {
     this.getStoreList()
+    this.getDeleteStoreList()
   },
   methods: {
       async getStoreList () {
@@ -73,6 +99,15 @@ export default {
       console.log(res)
       },
 
+      async getDeleteStoreList () {
+      const { data: res } = await this.$http.post('/admin/checkDeletingRequest', {
+         params: this.queryInfo
+      })
+      if (res.meta.status !== 200) return this.$message.error('getting store list failed')
+      this.deletestorelist = res.data
+      console.log(res)
+      },
+
       approveRequest(index){
          this.$http
          .post('/admin/checkOpenningRequest/Passed',
@@ -80,6 +115,22 @@ export default {
          )
          .then(function (res) {
           console.log(res.data);
+          this.storelist = this.getStoreList()
+         })
+      .catch(function (error) {
+         console.log(error);
+         
+         });
+      },
+
+      approveDeleteRequest(index){
+         this.$http
+         .post('/admin/checkDeletingRequest/Passed',
+          this.deletestorelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+          this.deletestorelist = this.getDeleteStoreList()
          })
       .catch(function (error) {
          console.log(error);
