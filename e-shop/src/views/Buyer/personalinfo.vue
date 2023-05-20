@@ -31,7 +31,7 @@
       <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
         <el-form :inline="true">
           <el-form-item label="UserName">
-            <el-input v-model="username"></el-input>
+            <el-input v-model="username" disabled></el-input>
           </el-form-item>
           <el-form-item label="PassWord">
             <el-input v-model="password" show-password></el-input>
@@ -81,13 +81,15 @@
 import { ElNotification } from "element-plus";
 import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
+import  {useCounterStore} from "../stores/counter"
 import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
 
 let { proxy } = getCurrentInstance();
 
+const counter=useCounterStore();
 const errorMsg = ref("");
-const username = ref("myname");
+const username = counter.userName;
 const phoneNumber = ref("65535");
 const emailPrefix = ref("200");
 const emailSuffix = ref("fdu.edu.cn");
@@ -107,10 +109,15 @@ function getPersonalInfo(){
   certifyPassword.value = "";
   proxy.$http
       .post("/seller/personalAccount", {
+        userName: username
       })
       .then(function (res) {
           let user =res.data.result;
-          username.value = user.username;
+          username = user.username;
+          counter.$patch({
+          userName:username.value,
+          userType:counter.userType
+          });
           phoneNumber.value = user.phoneNumber;
           emailPrefix.value = user.emailPrefix;
           emailSuffix.value = user.emailSuffix;

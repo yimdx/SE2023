@@ -39,6 +39,7 @@
 <script setup>
 import { ElNotification } from "element-plus";
 import { ref, getCurrentInstance } from "vue";
+import  {useCounterStore} from "../stores/counter"
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
@@ -53,12 +54,16 @@ let account = {
 const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
+const counter=useCounterStore();
+const errorMsg = ref("");
+const username = counter.userName;
 
 function getAccount(){
   account.account = "mynaccount";
   account.balance = "65535";
   proxy.$http
       .post("/seller/personalAccount", {
+        userName: username
       })
       .then(function (res) {
          account=res.data.result;
