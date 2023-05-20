@@ -180,6 +180,7 @@ const confirmModify = () => {
       .post("/seller/personalInfo/modify", {
         username: username.value,
         password: password.value,
+        idNumber: idCode.value,
         phoneNumber:phoneNumber.value,
         email:emailPrefix.value+"@"+emailSuffix.value
       })
