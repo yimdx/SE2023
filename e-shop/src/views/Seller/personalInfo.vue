@@ -89,7 +89,7 @@ let { proxy } = getCurrentInstance();
 
 const errorMsg = ref("");
 const counter=useCounterStore();
-const username = counter.userName;
+const username = ref("");
 const phoneNumber = ref("65535");
 const emailPrefix = ref("200");
 const emailSuffix = ref("fdu.edu.cn");
@@ -113,7 +113,7 @@ function getPersonalInfo(){
       })
       .then(function (res) {
           let user =res.data.result;
-          username = user.username;
+          username.value = user.userName;
           counter.$patch({
           userName:username.value,
           userType:counter.userType

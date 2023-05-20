@@ -89,7 +89,7 @@ let { proxy } = getCurrentInstance();
 
 const counter=useCounterStore();
 const errorMsg = ref("");
-const username = counter.userName;
+const username = ref("myname");
 const phoneNumber = ref("65535");
 const emailPrefix = ref("200");
 const emailSuffix = ref("fdu.edu.cn");
@@ -109,21 +109,21 @@ function getPersonalInfo(){
   certifyPassword.value = "";
   proxy.$http
       .post("/seller/personalAccount", {
-        userName: username
+        userName: counter.userName
       })
       .then(function (res) {
           let user =res.data.result;
-          username = user.username;
-          counter.$patch({
-          userName:username.value,
-          userType:counter.userType
-          });
+          username.value = user.userName
           phoneNumber.value = user.phoneNumber;
           emailPrefix.value = user.emailPrefix;
           emailSuffix.value = user.emailSuffix;
           idCode.value = user.idCode;
           password.value = user.password;
           certifyPassword.value = user.certifyPassword;
+          counter.$patch({
+          userName:username.value,
+          userType:counter.userType
+          });
       })
       .catch(function (error) {
         console.log(error);
@@ -133,7 +133,6 @@ function getPersonalInfo(){
           message: "Get Account Failed(Something must go wrong!)",
           type: "error",});
       });
-
 };
 getPersonalInfo();
 
