@@ -4,27 +4,9 @@
       <el-table-column type="index"></el-table-column>
       <el-table-column label="ShopName" prop="shopName"></el-table-column>
       <el-table-column label="Address" prop="address"></el-table-column>
-      <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+      <el-table-column label="ShopInfo" prop="shopIntro"></el-table-column>
       <el-table-column label="StartTime" prop="startTime"></el-table-column>
-      <el-table-column label="Goods" prop="goods"></el-table-column>
-      <el-table-column
-        prop="status"
-        label="Status"
-        width="100"
-        :filters="[
-          { text: 'submitted', value: 'submitted' },
-          { text: 'passed', value: 'passed' },
-          { text: 'sendBack', value: 'sendBack' },
-        ]"
-        :filter-method="filterTag"
-        filter-placement="bottom-end"
-      >
-        <template #default="scope">
-          <el-tag :type="getTag(scope.$index,scope.row)" disable-transitions>{{
-            scope.row.status
-          }}</el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column label="Goods" prop="goodsType"></el-table-column>
       <el-table-column label="Operations">
         <template #default="scope">
           <el-button size="small" @click="handleShowMore(scope.$index, scope.row)"
@@ -41,7 +23,7 @@
     </el-table>
 
     <el-dialog v-model="showMoreVisible" title="Store Info">
-        <el-button @click="gotoShelf">Shelf</el-button>
+        <div @click="gotoShelf" class="gotoShelf">Go to Shelf</div>
         <el-descriptions title="" :column="3" border>
     <el-descriptions-item
       label="ShopName"
@@ -58,9 +40,6 @@
     <el-descriptions-item label="Address" label-align="right" align="center" width="150px"
       >{{showInfo.address}}</el-descriptions-item
     >
-    <el-descriptions-item label="Status" label-align="right" align="center">
-      <el-tag :type="getTag(0,showInfo)" size="small">{{showInfo.status}}</el-tag>
-    </el-descriptions-item>
     <el-descriptions-item label="ShopInfo" label-align="right" align="center"
       >{{showInfo.shopInfo}}</el-descriptions-item
     >
@@ -76,7 +55,7 @@
 
 
 <script>
-import  {useCounterStore} from "../../stores/counter"
+import  {useCounterStore} from "../stores/counter"
 export default {
   data() {
     return {
@@ -93,7 +72,7 @@ export default {
           shopInfo: "shopinfo",
           startTime: "starttime",
           goods: "no goods",
-          status: "submitted",
+          merchantName:"Li Hua",
         },
       ],
       total: 0,
@@ -104,7 +83,7 @@ export default {
         shopInfo: "",
         startTime: "",
         goods: "",
-        status: "",
+        merchantName:"",
       },
     };
   },
@@ -124,6 +103,7 @@ export default {
           startTime: "starttime",
           goods: "no goods",
           status: "submitted",
+          merchantName:'Li Hua',
         },
         {
           shopName: "testshop",
@@ -132,6 +112,7 @@ export default {
           startTime: "starttime",
           goods: "no goods",
           status: "passed",
+          merchantName:'Li Hua',
         },
         {
           shopName: "testshop",
@@ -140,60 +121,40 @@ export default {
           startTime: "starttime",
           goods: "no goods44444444444444444444444444444444444444444444",
           status: "sendBack",
+          merchantName:'Li Hua',
         },
       ];
-      const { data: res } = await this.$http.post("/admin/index/stores", {
-        params: this.queryInfo,
+      this.$http.post("/admin/index/stores")
+      .then(res=>{
+        this.storelist = res.data.result;
+        console.log(this.storelist);
+        console.log(res);
+      }).catch(err=>{
+        console.log(err);
       });
-
-      if (res.meta.status !== 200)
-        return this.$message.error("getting store list failed");
-      this.storelist = res.data;
-      console.log(res);
     },
     handleShowMore(index, row) {
+
       if(this.showMoreVisible===false) {
         this.showMoreVisible=true;
         this.showInfo.shopName=row.shopName;
-        this.showInfo.shopInfo=row.shopInfo;
+        this.showInfo.shopInfo=row.shopIntro;
         this.showInfo.address=row.address;
         this.showInfo.startTime=row.startTime;
-        this.showInfo.goods=row.goods;
-        this.showInfo.status=row.status;
+        this.showInfo.goods=row.goodsType;
+        this.showInfo.merchantName=row.userName;
+        console.log(this.showInfo)
     }
     },
     handleDelete(index, row) {
       console.log(index, row);
-      proxy.$http.post("/merchant/store/delate",{
-      shopName:row.shopName
-    }).then(function (res) {
-      })
-      .catch(function (error) {
-        console.log(error);
-        ElNotification({
-          title: "Error",
-          message: "Delete Failed(Something must go wrong!)",
-          type: "error",});
-      });
-    },
-    getTag(index,row) {
-      let status = row.status;
-      if (status === "passed") return "success";
-      else if (status === "submitted") return "warning";
-      else return "danger";
-    },
-    filterTag(value, row) {
-      return row.status === value;
     },
     gotoShelf(){
-        if(this.showInfo.status!=="passed"){
-            return ;
-        }
       const counter=useCounterStore();
-      if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName);
-      else if (counter.userType==="seller") this.$router.push("/seller/index/shelf?shopName="+this.showInfo.shopName);
-      else  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName);
-        
+     if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
+      else if (counter.userType==="seller") this.$router.push("/seller/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
+      else if(counter.userType==='buyer')  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
+      else  this.$router.push("/");
     }
   },
 };
@@ -206,5 +167,18 @@ export default {
 .el-table {
   margin-top: 15px;
   font-size: 12px;
+}
+.gotoShelf{
+  position: absolute;
+  color: rgb(21, 238, 254);
+  cursor: pointer;
+  font-size: 20px;
+  margin-bottom: 5px;
+  right: 7%;
+  top:30%;
+}
+.gotoShelf:hover{
+  color: rgb(21, 103, 107);
+  text-decoration: underline;
 }
 </style>

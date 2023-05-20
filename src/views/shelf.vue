@@ -41,7 +41,7 @@
 </div>
 
 
-<div class="cart"  v-show="crossVisible">
+<div class="cart"  v-show="!crossVisible">
      <el-badge :value="cartNum">
         <el-icon size="100" @click="gotoCart"><ShoppingCart />
     </el-icon> 
@@ -195,10 +195,9 @@ const crossVisible=userType==="seller";
 const addGoodDialogVisible=ref(false);
 const showMoreVisible=ref(false);
 const router=useRouter();
-const {shopName} =router.currentRoute.value.query;
+const {shopName,merchantName} =router.currentRoute.value.query;
 let {proxy}= getCurrentInstance();
 let goodsList=[];
-let merchantName="Li Hua";
 const cartNum=ref(counter.cartNum);
 const newItem = reactive({
     name:"",
@@ -231,14 +230,14 @@ function getGoodsList(){
         };
   proxy.$http
       .post("/merchant/goodsList", {
-        shopName:shopName
+        userName:merchantName
       })
       .then(function (res) {
          goodsList=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
-        
+        merchantName='Li Hua';
         ElNotification({
           title: "Error",
           message: "Get GoodsList Failed(Something must go wrong!)",
@@ -246,22 +245,6 @@ function getGoodsList(){
       });
      
   
-    //api get merchantName
-
-    proxy.$http.post("/getUserNameByShopName",{
-      shopName:shopName
-    }).then(function (res) {
-         merchantName=res.data.result;
-      })
-      .catch(function (error) {
-        console.log(error);
-        
-        ElNotification({
-          title: "Error",
-          message: "Get MerchantName Failed(Something must go wrong!)",
-          type: "error",});
-      });
-
     cartNum.value=counter.cartNum;
 };
 getGoodsList();

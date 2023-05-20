@@ -120,11 +120,11 @@
 <script setup>
 
 import {ElNotification} from "element-plus";
-import {getCurrentInstance} from "vue";
+import {getCurrentInstance,reactive,ref} from "vue";
 
 let {proxy}=getCurrentInstance();
 //get MCIrequest
-let MCIrecords=[
+let MCIrecords=ref([
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -191,9 +191,9 @@ let MCIrecords=[
         submitStatus:"Passed"
 
     }
-];
+]);
 //get add records
-let addRecords=[  
+let addRecords=ref([  
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -227,13 +227,14 @@ let addRecords=[
         submitStatus:"Passed"
 
     }
-    ];
+    ]);
 
     function getRecords(){
      proxy.$http
       .post("/admin/checkUpShelfRequest")
       .then(function (res) {
-        addRecords=res.data.result;
+        addRecords.value=res.data.result;
+        console.log(addRecords.value);
       })
       .catch(function (error) {
         console.log(error)
@@ -245,7 +246,8 @@ let addRecords=[
        proxy.$http
       .post("/admin/checkMCIRequest")
       .then(function (res) {
-        MCIrecords=res.data.result;
+        MCIrecords.value=res.data.result;
+        console.log(MCIrecords.value)
       })
       .catch(function (error) {
         console.log(error)

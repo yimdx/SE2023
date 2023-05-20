@@ -96,6 +96,10 @@
 import { Setting } from "@element-plus/icons-vue";
 import { Edit } from '@element-plus/icons-vue'
 import { useRouter } from "vue-router";
+import  {useCounterStore} from "../../stores/counter"
+const counter=useCounterStore();
+const userName=counter.userName;
+const userType=counter.userType;
 const changesettings=()=>{
   // if(bg_op.value==false){
   //   bg_op.value=true;
