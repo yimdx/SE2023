@@ -35,7 +35,7 @@
 
 <script setup>
 import { ElNotification } from "element-plus";
-import  {useCounterStore} from "../stores/counter"
+import  {useCounterStore} from "../../stores/counter"
 import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";

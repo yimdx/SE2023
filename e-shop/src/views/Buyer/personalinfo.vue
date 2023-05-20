@@ -81,7 +81,7 @@
 import { ElNotification } from "element-plus";
 import { ref, getCurrentInstance } from "vue";
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
-import  {useCounterStore} from "../stores/counter"
+import  {useCounterStore} from "../../stores/counter"
 import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
 
