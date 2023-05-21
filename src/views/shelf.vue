@@ -428,9 +428,9 @@ function deleteGood(item,index){
 
       proxy.$http
       .post("/merchant/goodsList/delete", {
-        userName:userName, 
+        merchantName:userName, 
         shopName:shopName,
-        name:item.name
+        goodsName:item.name
       })
       .then(function (res) {
          console.log("success delete");
