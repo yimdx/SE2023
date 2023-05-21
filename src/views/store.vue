@@ -154,7 +154,7 @@ export default {
      if(counter.userType==="admin") this.$router.push("/admin/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
       else if (counter.userType==="seller") this.$router.push("/seller/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
       else if(counter.userType==='buyer')  this.$router.push("/buyer/index/shelf?shopName="+this.showInfo.shopName+"&merchantName="+this.showInfo.merchantName);
-      else  this.$router.push("/");
+      console.log(counter.userType);
     }
   },
 };

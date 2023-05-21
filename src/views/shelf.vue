@@ -195,7 +195,8 @@ const crossVisible=userType==="seller";
 const addGoodDialogVisible=ref(false);
 const showMoreVisible=ref(false);
 const router=useRouter();
-const {shopName,merchantName} =router.currentRoute.value.query;
+let {shopName,merchantname} =router.currentRoute.value.query;
+const merchantName=ref(merchantname);
 let {proxy}= getCurrentInstance();
 let goodsList=[];
 const cartNum=ref(counter.cartNum);
@@ -230,14 +231,14 @@ function getGoodsList(){
         };
   proxy.$http
       .post("/merchant/goodsList", {
-        userName:merchantName
+        userName:merchantName.value
       })
       .then(function (res) {
          goodsList=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
-        merchantName='Li Hua';
+        merchantName.value='Li Hua';
         ElNotification({
           title: "Error",
           message: "Get GoodsList Failed(Something must go wrong!)",
@@ -455,7 +456,7 @@ function addCart(item,index){
     let flag=false;
     let idx=-1;
     counter.cart.forEach((o,index)=>{
-        if(o.merchantName===merchantName && o.goodsName===item.name){
+        if(o.merchantName===merchantName.value && o.goodsName===item.name){
             o.quantity++;
             flag=true;
             idx=index;
@@ -467,7 +468,7 @@ function addCart(item,index){
     }
     if(flag===false){
         counter.cart.push({
-            merchantName:merchantName,
+            merchantName:merchantName.value,
             goodsName:item.name,
             picture:item.picture,
             unitPrice:item.price,

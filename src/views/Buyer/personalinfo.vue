@@ -89,7 +89,7 @@ let { proxy } = getCurrentInstance();
 
 const counter=useCounterStore();
 const errorMsg = ref("");
-const username = counter.userName;
+const username = ref(counter.userName);
 const phoneNumber = ref("65535");
 const emailPrefix = ref("200");
 const emailSuffix = ref("fdu.edu.cn");
@@ -109,11 +109,11 @@ function getPersonalInfo(){
   certifyPassword.value = "";
   proxy.$http
       .post("/seller/personalAccount", {
-        userName: username
+        userName: username.value
       })
       .then(function (res) {
           let user =res.data.result;
-          username = user.username;
+          username.value = user.username;
           counter.$patch({
           userName:username.value,
           userType:counter.userType

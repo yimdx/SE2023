@@ -123,14 +123,14 @@
 
 <script setup>
 import {ElNotification} from "element-plus";
-import {getCurrentInstance} from "vue";
+import {getCurrentInstance,ref} from "vue";
 import  {useCounterStore} from "../../stores/counter"
 const counter=useCounterStore();
 const userType=counter.userType;
 const userName=counter.userName;
 let {proxy}=getCurrentInstance();
 //get MCIrequest
-let MCIrecords=[
+let MCIrecords=ref([
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -197,9 +197,9 @@ let MCIrecords=[
         submitStatus:"Passed"
 
     }
-];
+]);
 //get add records
-let addRecords=[  
+let addRecords=ref([  
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -233,14 +233,14 @@ let addRecords=[
         submitStatus:"Passed"
 
     }
-    ];
+    ]);
     function getRecords(){
           proxy.$http
       .post("/merchant/goodsList/upShelfRequestList",{
         userName:userName
       })
       .then(function (res) {
-        addRecords=res.data.result;
+        addRecords.value=res.data.result;
       })
       .catch(function (error) {
         console.log(error)
@@ -254,7 +254,7 @@ let addRecords=[
         userName:userName
       })
       .then(function (res) {
-        MCIrecords=res.data.result;
+        MCIrecords.value=res.data.result;
       })
       .catch(function (error) {
         console.log(error)
