@@ -39,25 +39,6 @@
 </template>
 
 
-// <script setup>
-// import { ElNotification } from "element-plus";
-// import { ref, getCurrentInstance } from "vue";
-// import { Unlock, User, Avatar } from "@element-plus/icons-vue";
-// import { useRouter } from "vue-router";
-// import { usernameCheck, passwordCheck } from "../../utils/regressionCheck.js";
-// import {snow} from "../../static/img-base64/snow"
-// img.src=snow;
-// var child = document.getElementById("canvas_sakura");
-// while(child){
-//     var parent=child.parentNode;
-//     parent.removeChild(child);
-//     child = document.getElementById("canvas_sakura")
-// }
-// startSakura();
-// child = document.getElementById("canvas_sakura")
-// var parent=child.parentNode;
-// parent.removeChild(child);
-// </script>
 
 <script>
 
@@ -90,22 +71,24 @@ export default {
     this.getDeleteStoreList()
   },
   methods: {
-      async getStoreList () {
-      const { data: res } = await this.$http.post('/admin/checkOpenningRequest', {
-         params: this.queryInfo
-      })
-      if (res.meta.status !== 200) return this.$message.error('getting store list failed')
-      this.storelist = res.data
-      console.log(res)
+       getStoreList () {
+            this.$http
+            .post('/admin/checkOpenningRequest')
+            .then(function (res) {
+               this.storelist = res.data.result;
+            }).catch(err=>{
+               console.log(err);
+            });
       },
 
-      async getDeleteStoreList () {
-      const { data: res } = await this.$http.post('/admin/checkDeletingRequest', {
-         params: this.queryInfo
-      })
-      if (res.meta.status !== 200) return this.$message.error('getting store list failed')
-      this.deletestorelist = res.data
-      console.log(res)
+      getDeleteStoreList() {
+          this.$http
+            .post('/admin/checkOpenningRequest')
+            .then(function (res) {
+               this.deletestorelist = res.data.result;
+            }).catch(err=>{
+               console.log(err);
+            })
       },
 
       approveRequest(index){
