@@ -234,7 +234,7 @@ let addRecords=ref([
       .post("/admin/checkUpShelfRequest")
       .then(function (res) {
         addRecords.value=res.data.result;
-        console.log(addRecords.value);
+        //console.log(addRecords.value);
       })
       .catch(function (error) {
         console.log(error)
@@ -247,7 +247,7 @@ let addRecords=ref([
       .post("/admin/checkMCIRequest")
       .then(function (res) {
         MCIrecords.value=res.data.result;
-        console.log(MCIrecords.value)
+       // console.log(MCIrecords.value)
       })
       .catch(function (error) {
         console.log(error)
@@ -275,7 +275,9 @@ let addRecords=ref([
         name:row.name
       })
       .then(function (res) {
-        row.submitStatus='Passed';
+        getRecords();
+        //row.submitStatus='Passed';
+
       })
       .catch(function (error) {
         console.log(error)
@@ -293,7 +295,8 @@ let addRecords=ref([
         name:row.name
       })
       .then(function (res) {
-        row.submitStatus='sendBack';
+        //row.submitStatus='sendBack';
+        getRecords();
       })
       .catch(function (error) {
         console.log(error)
@@ -311,7 +314,8 @@ let addRecords=ref([
         name:row.name
       })
       .then(function (res) {
-        row.submitStatus='Passed';
+        //row.submitStatus='Passed';
+        getRecords();
       })
       .catch(function (error) {
         console.log(error)
@@ -329,7 +333,8 @@ let addRecords=ref([
         name:row.name
       })
       .then(function (res) {
-        row.submitStatus='sendBack';
+        //row.submitStatus='sendBack';
+        getRecords();
       })
       .catch(function (error) {
         console.log(error)

@@ -284,6 +284,7 @@ let addRecords=ref([
       })
       .then(function (res) {
          console.log("success delete");
+         getRecords();
           ElNotification({
           title: "Success",
           message: "Delete MCI request Passed",
@@ -307,6 +308,7 @@ let addRecords=ref([
       })
       .then(function (res) {
           console.log("success delete");
+          getRecords();
           ElNotification({
           title: "Success",
           message: "Delete Add request Passed",
