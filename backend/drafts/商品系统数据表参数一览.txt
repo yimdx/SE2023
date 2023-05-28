@@ -1,0 +1,56 @@
+tb1:upShelfRequest 商品上架申请表
+
+#submitStatus规则见part3草稿
+#你可以看到我在表里自作主张地把商品名称长度设置为了64字符, 防止恶意水字数
+CREATE TABLE upShelfRequest(
+userName varchar(11) primary key, 
+shopName varchar(13) not null, 
+name varchar(195) not null, 
+discription varchar(387) not null, 
+picture text not null, 
+price float not null, 
+stock int not null, 
+submitStatus varchar(20) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+tb2:goodsListOf【userName】 某商户的商品列表
+
+#每个商户有一个专门的商品数据表，【userName】换成对应的商户的用户名
+#图片以url形式储存，每个url之间用逗号隔开
+#购买商品的用户记录在表内，两个用户名之间用逗号隔开
+
+CREATE TABLE goodsListOf【userName】(
+name varchar(195) not null, 
+discription varchar(387) not null, 
+picture text not null, 
+price float not null, 
+stock int not null, 
+shelf varchar(4) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+tb3:MCIRequest 修改商品信息申请表
+#再说明一下，“MCI”是“modify commodity information”，修改商品信息
+#我就是编不下去了然后写了个简称
+
+CREATE TABLE MCIRequest(
+userName varchar(11) primary key, 
+shopName varchar(13) not null, 
+name varchar(195) not null, 
+discription varchar(387) not null, 
+picture text not null, 
+price float not null, 
+stock int not null，
+submitStatus varchar(10) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+
+tb4：cartOf【userName】 某买家的购物车
+CREATE TABLE cartOf【userName】(
+merchantName varchar(11) not null, 
+goodsName varchar(195) primary key, 
+picture text not null, 
+unitPrice float not null, 
+quantity int not null, 
+shelf varchar(4)
+)DEFAULT CHARACTER SET utf8mb4;
+
