@@ -1,0 +1,56 @@
+目录
+1、submitStatus的介绍
+2、关于管理员查看和审批网店申请部分的写作思路说明
+3、openningRequestForm数据表参数展示
+4、关于不同条目的商品名称如何分切和识别的碎碎念
+5、shopList数据表参数展示
+
+1、我根据李同学的建议，自己进行了点发挥，设置了一个状态参数submitStatus，添加在
+OpenningRequest的最后。其中有这么几个状态：
+None：没有申请
+Success：提交成功
+Passed：申请通过（申请表仍然存在数据库里，只是不在管理员的审核界面显示了）
+sentBack:申请被退回，需要修改
+
+之后如果还要做删除申请的功能，咱们再说，先歇了:P
+
+可以尝试一下在数据库中存储多个字符串（中间用逗号分隔）是什么效果再决定
+
+2、关于管理员查看和审批网店申请那部分的写作思路说明
+我想的是通过用户名来标识网店申请，就不用申请序号这玩意了。
+前端应该是在每一条申请的旁边或下面都有批准和退回相应申请的按钮，那么在按下按钮之后应该向
+后端传加密的用户名，以便后端进行接下来的操作。（当然，我不知道那个token是只要设定好了就
+一直存在，不用重复传还是什么，请学长教教我。）
+
+3、openningRequestForm数据表参数展示，主要是请小组同学注意一下参数的顺序
+    注意：我下的这个版本的MySQL只准设置一个主键，所以在开店申请页面我会放一个查询店名和
+    身份证号是否重复的判断句。(详见checkInfoPlus，4月2号的陈小C表示还没写)
+
+CREATE TABLE openningRequestForm(
+    userName varchar(11) primary key, 
+    shopName varchar(13) not null, 
+    goodsType TEXT not null, 
+    identificationID varchar(19) not null, 
+    shopIntro varchar(129) not null, 
+    address varchar(32) not null, 
+    initialFund int not null, 
+    startTime varchar(11) not null, 
+    submitStatus varchar(20) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+4、请写前端的学长备注一下同一商品名称中间不能有（英文）逗号，不同商品名称用（英文）逗号隔开，
+麻烦你们了……
+或者你们想写一个商品名填空器，自动生成标准字符串也行（手动狗头）
+
+5、shopList数据表参数展示
+    先暂时这样吧，老师也没给一个店铺都需要些什么信息
+CREATE TABLE shopList(
+    userName varchar(11) primary key, 
+    shopName varchar(13) not null, 
+    goodsType TEXT not null, 
+    identificationID varchar(19) not null, 
+    shopIntro varchar(129) not null, 
+    address varchar(32) not null, 
+    initialFund int not null, 
+    startTime varchar(11) not null
+)DEFAULT CHARACTER SET utf8mb4;

@@ -1,0 +1,67 @@
+1、端口名
+商户查看商品列表：/merchant/goodsList
+商户填写新增商品申请表的页面：/merchant/goodsList/add
+提交新增商品申请后，跳转到：/merchant/goodsList/add/commit
+商户填写修改商品信息申请表的页面：/merchant/goodsList/alter 
+提交修改商品信息申请后，跳转到：/merchant/goodsList/alter/commit
+商户点击商品下架后，跳转到：/merchant/goodsList/downShelf #下架的商品在商品列表还能看到
+商户删除商品：/merchant/goodsList/delete
+
+商户个人商品上架申请记录页面：/merchant/goodsList/upShelfRequestList
+商户删除申请条目时，跳转：/merchant/goodsList/upShelfRequestList/delete
+商户修改申请条目页面, 将表单内容传给前端：/merchant/goodsList/upShelfRequestList/alter
+商户修改信息后用这个接口提交：/merchant/goodsList/upShelfRequestList/alter/commit
+
+商品修改申请记录页面：/merchant/goodsList/MCIRequestList
+商户删除申请条目时，跳转：/merchant/goodsList/MCIRequestList/delete
+商户修改申请条目页面：/merchant/goodsList/MCIRequestList/alter
+商户修改信息后用这个接口提交：/merchant/goodsList/MCIRequestList/alter/commit
+
+管理员审核上架申请页面：/admin/checkUpShelfRequest
+通过后，跳转到：/admin/checkUpShelfRequest/Passed
+不通过，跳转到：/admin/checkUpShelfRequest/sentBack
+
+MCI：Modify commodity information
+管理员审核商品信息修改申请页面：/admin/checkMCIRequest #我尽力了，编不下去了
+通过后，跳转到：/admin/checkMCIRequest/Passed
+不通过，跳转到：/admin/checkMCIRequest/sentBack
+
+2、商品列表页面-上架状态表示一览(见goodsList-shelf一列)
+up
+down
+
+3、上架申请部分和商品修改申请记录的状态表示
+Submitted
+Passed
+sentBack
+
+4、再总结一下关于传输数据库查询结果的部分
+数据库查询结果的字典“键”统一定为result，如果有多个……
+有需要的话我会在之后的草稿里写明多个结果的名称和作用的。
+“申请已受理”一类返回到前端的string的“键”名：message，状态码：200
+“信息有误”一类，“键”名：error，状态码：444
+
+字典的值的部分请看下面↓
+
+数据库的查询结果是个二重元组，例如这里有一个表
+username pwd
+A        123
+B        124
+(备注：全部是字符串类型)
+如果我查询数据库所有内容，会返回的值是：
+(('A', '123'), ('B', '124'))
+
+再来一个
+num price
+1     1.2
+2     12.1
+(int  float)
+如果我查询数据库所有内容，会返回的值是：
+((1, 1.2), (2, 12.1))
+
+5、关于新增商品和修改商品信息的申请数据存储的逻辑
+（1）申请通过后直接抹掉申请表里的数据
+（2）商户可以删除状态为“Submitted”“Sentback”的数据
+本来是想再写一个将通过的申请备份在其他地方的模块，但是我们组长说了，这是新的需求，要加钱，不然不写（doge）
+
+6、新增商品和修改商品信息申请表的差别：修改商品信息申请表少了shopName一项，还有表名不一样

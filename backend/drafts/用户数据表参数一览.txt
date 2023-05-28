@@ -1,0 +1,33 @@
+1、普通用户
+CREATE TABLE clientInfo(
+    userName varchar(11) primary key, 
+    phoneNumber varchar(12) not null, 
+    identificationID varchar(19) not null, 
+    email varchar(129) not null, 
+    passWord varchar(33) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+2、商户
+CREATE TABLE merchentInfo(
+    userName varchar(11) primary key, 
+    phoneNumber varchar(12) not null, 
+    identificationID varchar(19) not null, 
+    email varchar(129) not null, 
+    passWord varchar(33) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+3、管理员
+CREATE TABLE adminInfo(
+    userName varchar(11) primary key, 
+    phoneNumber varchar(12) not null, 
+    identificationID varchar(19) not null, 
+    email varchar(129) not null, 
+    passWord varchar(33) not null
+)DEFAULT CHARACTER SET utf8mb4;
+
+这里因为需要用就先设定了：
+userName:Administrator
+passWord:my_netshop
+
+张同学可以补充一下其他参数
+
