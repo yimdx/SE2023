@@ -55,7 +55,8 @@
   </div> -->
    <div style="position:absolute;left:80%;top:80%" class="total"><span style="color:red;font:25px red">Total:</span> 
            &nbsp;<span style="color:grey;font-size:20px">￥</span>
-      <span style="font-size:25px">{{totalCost}}</span></div>
+      <span style="font-size:25px">{{totalCost}}</span>
+      </div>
 </template>
 
 <script setup>

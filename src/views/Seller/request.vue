@@ -83,6 +83,10 @@
 import { ElNotification } from "element-plus";
 import { ref ,getCurrentInstance} from "vue";
 import {shopNameCheck,addressCheck,identificationIDCheck,initialFundCheck} from "../../utils/regressionCheck";
+import  {useCounterStore} from "../../stores/counter"
+const counter=useCounterStore();
+const userType=counter.userType;
+const userName=counter.userName;
 // import {sakura} from "../../static/img-base64/sakura"
 // img.src="";
 // var child = document.getElementById("canvas_sakura");
@@ -135,6 +139,7 @@ const request=()=>{
   {
     proxy.$http
       .post("/store/request/commit", {
+        userName:userName,
         shopName: shopName.value,
         identificationID: identificationID.value,
         address: address.value,

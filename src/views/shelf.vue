@@ -41,7 +41,7 @@
 </div>
 
 
-<div class="cart"  v-show="crossVisible">
+<div class="cart"  v-show="!crossVisible">
      <el-badge :value="cartNum">
         <el-icon size="100" @click="gotoCart"><ShoppingCart />
     </el-icon> 
@@ -195,10 +195,10 @@ const crossVisible=userType==="seller";
 const addGoodDialogVisible=ref(false);
 const showMoreVisible=ref(false);
 const router=useRouter();
-const {shopName} =router.currentRoute.value.query;
+let {shopName,merchantname} =router.currentRoute.value.query;
+const merchantName=ref(merchantname);
 let {proxy}= getCurrentInstance();
 let goodsList=[];
-let merchantName="Li Hua";
 const cartNum=ref(counter.cartNum);
 const newItem = reactive({
     name:"",
@@ -231,14 +231,14 @@ function getGoodsList(){
         };
   proxy.$http
       .post("/merchant/goodsList", {
-        shopName:shopName
+        userName:merchantName.value
       })
       .then(function (res) {
          goodsList=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
-        
+        merchantName.value='Li Hua';
         ElNotification({
           title: "Error",
           message: "Get GoodsList Failed(Something must go wrong!)",
@@ -246,22 +246,6 @@ function getGoodsList(){
       });
      
   
-    //api get merchantName
-
-    proxy.$http.post("/getUserNameByShopName",{
-      shopName:shopName
-    }).then(function (res) {
-         merchantName=res.data.result;
-      })
-      .catch(function (error) {
-        console.log(error);
-        
-        ElNotification({
-          title: "Error",
-          message: "Get MerchantName Failed(Something must go wrong!)",
-          type: "error",});
-      });
-
     cartNum.value=counter.cartNum;
 };
 getGoodsList();
@@ -444,9 +428,9 @@ function deleteGood(item,index){
 
       proxy.$http
       .post("/merchant/goodsList/delete", {
-        userName:userName, 
+        merchantName:userName, 
         shopName:shopName,
-        name:item.name
+        goodsName:item.name
       })
       .then(function (res) {
          console.log("success delete");
@@ -472,7 +456,7 @@ function addCart(item,index){
     let flag=false;
     let idx=-1;
     counter.cart.forEach((o,index)=>{
-        if(o.merchantName===merchantName && o.goodsName===item.name){
+        if(o.merchantName===merchantName.value && o.goodsName===item.name){
             o.quantity++;
             flag=true;
             idx=index;
@@ -484,7 +468,7 @@ function addCart(item,index){
     }
     if(flag===false){
         counter.cart.push({
-            merchantName:merchantName,
+            merchantName:merchantName.value,
             goodsName:item.name,
             picture:item.picture,
             unitPrice:item.price,

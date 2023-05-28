@@ -46,12 +46,10 @@
       </el-table-column>
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button
-          size="small"
-          type="danger"
-          @click="handleUpdateDelete(scope.$index, scope.row)"
-          >Delete</el-button
-        >
+        <span @click="handleMCIApprove(scope.$index, scope.row)" class="approve">Approve</span>
+        &nbsp;
+        &nbsp;
+         <span @click="handleMCIDisapprove(scope.$index, scope.row)" class="disapprove">Disapprove</span>
       </template>
     </el-table-column>
    
@@ -104,12 +102,10 @@
       </el-table-column>
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button
-          size="small"
-          type="danger"
-          @click="handleAddDelete(scope.$index, scope.row)"
-          >Delete</el-button
-        >
+        <span @click="handleAddApprove(scope.$index, scope.row)" class="approve">Approve</span>
+        &nbsp;
+        &nbsp;
+         <span @click="handleAddDisapprove(scope.$index, scope.row)" class="disapprove">Disapprove</span>
       </template>
     </el-table-column>
    
@@ -122,15 +118,13 @@
 </template>
 
 <script setup>
+
 import {ElNotification} from "element-plus";
-import {getCurrentInstance} from "vue";
-import  {useCounterStore} from "../../stores/counter"
-const counter=useCounterStore();
-const userType=counter.userType;
-const userName=counter.userName;
+import {getCurrentInstance,reactive,ref} from "vue";
+
 let {proxy}=getCurrentInstance();
 //get MCIrequest
-let MCIrecords=[
+let MCIrecords=ref([
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -197,9 +191,9 @@ let MCIrecords=[
         submitStatus:"Passed"
 
     }
-];
+]);
 //get add records
-let addRecords=[  
+let addRecords=ref([  
     {
         userName:'LiHua',
         shopName:'testShop',
@@ -233,14 +227,14 @@ let addRecords=[
         submitStatus:"Passed"
 
     }
-    ];
+    ]);
+
     function getRecords(){
-          proxy.$http
-      .post("/merchant/goodsList/upShelfRequestList",{
-        userName:userName
-      })
+     proxy.$http
+      .post("/admin/checkUpShelfRequest")
       .then(function (res) {
-        addRecords=res.data.result;
+        addRecords.value=res.data.result;
+        //console.log(addRecords.value);
       })
       .catch(function (error) {
         console.log(error)
@@ -250,11 +244,10 @@ let addRecords=[
           type: "error",});
       });
        proxy.$http
-      .post("/merchant/goodsList/MCIRequestList",{
-        userName:userName
-      })
+      .post("/admin/checkMCIRequest")
       .then(function (res) {
-        MCIrecords=res.data.result;
+        MCIrecords.value=res.data.result;
+       // console.log(MCIrecords.value)
       })
       .catch(function (error) {
         console.log(error)
@@ -274,52 +267,82 @@ let addRecords=[
     function   filterTag(value, row) {
       return row.submitStatus === value;
     };
-    function handleUpdateDelete(index,row){
-        //delete row
-             proxy.$http
-      .post("/merchant/goodsList/MCIRequestList/delete", {
-        userName:row.userName, 
+    function handleAddApprove(index,row){
+        proxy.$http
+      .post("/admin/checkUpShelfRequest/Passed",{
+        userName:row.userName,
         shopName:row.shopName,
         name:row.name
       })
       .then(function (res) {
-         console.log("success delete");
-          ElNotification({
-          title: "Success",
-          message: "Delete MCI request Passed",
-          type: "success",});
+        getRecords();
+        //row.submitStatus='Passed';
+
       })
       .catch(function (error) {
         console.log(error)
         ElNotification({
           title: "Error",
-          message: "Delete MCI Request  Failed(Something must go wrong!)",
+          message: "Approve Add Record Failed(Something must go wrong!)",
           type: "error",});
       });
     }
-    function handleAddDelete(index,row){
-        //delete add
-          proxy.$http
-      .post("/merchant/goodsList/upShelfRequestList/delete", {
-        userName:row.userName, 
+    function handleAddDisapprove(index,row){
+            proxy.$http
+      .post("/admin/checkUpShelfRequest/sendBack",{
+        userName:row.userName,
         shopName:row.shopName,
         name:row.name
       })
       .then(function (res) {
-          console.log("success delete");
-          ElNotification({
-          title: "Success",
-          message: "Delete Add request Passed",
-          type: "success",});
+        //row.submitStatus='sendBack';
+        getRecords();
       })
       .catch(function (error) {
-         console.log(error)
+        console.log(error)
         ElNotification({
           title: "Error",
-          message: "Delete Add Request  Failed(Something must go wrong!)",
+          message: "Disapprove Add Record Failed(Something must go wrong!)",
           type: "error",});
       });
-        
+    }
+      function handleMCIApprove(index,row){
+        proxy.$http
+      .post("/admin/checkMCIRequest/Passed",{
+        userName:row.userName,
+        shopName:row.shopName,
+        name:row.name
+      })
+      .then(function (res) {
+        //row.submitStatus='Passed';
+        getRecords();
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Approve MCI Record Failed(Something must go wrong!)",
+          type: "error",});
+      });
+    }
+    function handleMCIDisapprove(index,row){
+            proxy.$http
+      .post("/admin/checkMCIRequest/sendBack",{
+        userName:row.userName,
+        shopName:row.shopName,
+        name:row.name
+      })
+      .then(function (res) {
+        //row.submitStatus='sendBack';
+        getRecords();
+      })
+      .catch(function (error) {
+        console.log(error)
+        ElNotification({
+          title: "Error",
+          message: "Disapprove Add MCI Failed(Something must go wrong!)",
+          type: "error",});
+      });
     }
 </script>
 
@@ -356,6 +379,9 @@ overflow-x:hidden;
   width: 1000px;
   position: relative;
   left: 3%;
+  background: linear-gradient(to right,rgb(241, 223, 223),rgb(187, 187, 206));
+  margin-right: 10px;
+  padding-right: 10px;
 }
 .title{
   font-size: 25px;
@@ -381,5 +407,23 @@ overflow-x:hidden;
 .tableName{
     margin:10px;
     font-size: 30px;
+}
+.approve{
+    color:rgb(29, 84, 29);
+    font-size: 10px;
+}
+.approve:hover{
+    cursor: pointer;
+    font-size: 11px;
+    color: green;
+}
+.disapprove{
+    color:rgb(255, 68, 68);
+    font-size: 10px;
+}
+.disapprove:hover{
+    color:rgb(114, 77, 77);
+    font-size: 11px;
+    cursor: pointer;
 }
 </style>
