@@ -185,7 +185,6 @@ import { ElNotification } from "element-plus";
 import  {useCounterStore} from "../stores/counter"
 import {useRouter} from "vue-router"
 import { onMounted ,ref,reactive,getCurrentInstance} from "vue";
-import { Goods ,ShoppingCart,Close} from "@element-plus/icons-vue";
 import {goodsNameCheck,goodsDescriptionCheck,priceCheck,pictureCheck,stockCheck} from "../utils/regressionCheck"
 const counter=useCounterStore();
 const userType=counter.userType;
@@ -228,7 +227,7 @@ function getGoodsList(){
             stock:3,
             submitStatus:"up"
         });
-        };
+  };
   proxy.$http
       .post("/merchant/goodsList", {
         userName:merchantName.value

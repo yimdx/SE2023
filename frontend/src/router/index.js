@@ -23,6 +23,7 @@ import Shelf from "../views/shelf.vue"
 import Cart from "../views/Buyer/cart.vue"
 import RequestRecord from '../views/Seller/requestRecord.vue'
 import GoodsRequest from '../views/Admin/goodsRequest.vue'
+import BuyerOrder from "../views/Buyer/order.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -170,6 +171,10 @@ const router = createRouter({
             {
               path:'/buyer/index/cart',
               component:Cart
+            },
+            {
+              path:'/buyer/index/order',
+              component:BuyerOrder
             },
             {
               path:'/buyer/index/personalaccount',

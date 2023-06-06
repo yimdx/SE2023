@@ -40,9 +40,7 @@
 import { ElNotification } from "element-plus";
 import { ref, getCurrentInstance } from "vue";
 import  {useCounterStore} from "../../stores/counter"
-import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
 
 let { proxy } = getCurrentInstance();
 
