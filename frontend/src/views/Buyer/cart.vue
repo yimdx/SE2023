@@ -56,13 +56,42 @@
    <div style="position:absolute;left:80%;top:80%" class="total"><span style="color:red;font:25px red">Total:</span> 
            &nbsp;<span style="color:grey;font-size:20px">￥</span>
       <span style="font-size:25px">{{totalCost}}</span>
+      <div></div>
+         <el-button
+          size="large"
+          type="info"
+          @click="buy"
+          style="border-radius:15px;width:100px"
+          >BUY</el-button
+        >
       </div>
+
+        <el-dialog
+    v-model="centerDialogVisible"
+    title="Confirm Purchase"
+    width="30%"
+    align-center
+  >
+    <span>Check carefully that these items are what you wat to buy.</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="confirmPurchase">
+          Confirm
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
+import { ref, getCurrentInstance } from "vue";
 import  {useCounterStore} from "../../stores/counter"
 import {useRouter} from "vue-router"
 import { reactive ,ref} from "vue";
+import {ElNotification} from "element-plus"
+
+let { proxy } = getCurrentInstance();
 const router=useRouter();
 const counter =useCounterStore();
 counter.cart.forEach(item=>{
@@ -71,8 +100,16 @@ counter.cart.forEach(item=>{
 const userType=counter.userType;
 const userName=counter.userName;
 const cart=reactive(counter.cart);
+cart.push({
+    merchantName:"Li Hua",
+    goodsName:"apple",
+    unitPrice:1.015,
+    quantity:3,
+    picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+});
 const cartNum=ref(counter.cartNum);
 const totalCost=ref(counter.totalCost);
+const centerDialogVisible=ref(false);
 function handleChange(current,old){
   if(current<old){
      counter.cartNum--;
@@ -101,6 +138,54 @@ function getTotal(){
     counter.totalCost+=cart[i].quantity*cart[i].unitPrice;
   }
   totalCost.value=counter.totalCost;
+}
+function buy(){
+  centerDialogVisible.value=true;
+}
+function confirmPurchase(){
+  //api create order
+  let k=cart.length;
+  //create order number
+    proxy.$http
+      .post("/buyer/order/create", {
+        username: username.value,
+      })
+      .then(function (res) {
+        let orderId=res.data.result;
+         for(let i=0;i<k;++i){
+            //send one item
+              proxy.$http
+              .post("/buyer/order/orderItem", {
+                orderId:orderId,
+                goodsName:cart[i].goodsName,
+                merchantName:cart[i].merchantName,
+                quantity:cart[i].quantity,
+                unitPrice:cart[i].unitPrice,
+              })
+              .then(function (res) {
+                console.log("order item "+i+" has been created");
+                if(i===k-1){
+                  router.push("/buyer/index/pay?orderId="+orderId);
+                  ElNotification({
+                    title: 'Success',
+                    message: 'Order Successfully!',
+                    type: 'success',
+                  })
+                }
+              }).catch(err=>{
+                console.log("order item" +i+' failed to be added');
+              })
+
+          }
+      })
+      .catch(function (error) {
+        ElNotification({
+          title: "Error",
+          message: "Couldn't get order number",
+          type: "Error",});
+      });
+ 
+  
 }
 </script>
 
