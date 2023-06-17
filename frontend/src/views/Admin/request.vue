@@ -14,6 +14,9 @@
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
                <el-button type="warning" size="mini" @click="approveRequest(scope.$index, scope.row)">Approve</el-button>
             </el-tooltip>
+             <el-tooltip effect="dark" content="disapprove the request" placement="top" :enterable="false">
+               <el-button type="warning" size="mini" @click="disapproveRequest(scope.$index, scope.row)">Disapprove</el-button>
+            </el-tooltip>
             </template>
          </el-table-column>
     </el-table>
@@ -30,6 +33,9 @@
             <template v-slot="scope">
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
                <el-button type="warning" size="mini" @click="approveDeleteRequest(scope.$index, scope.row)">Approve</el-button>
+            </el-tooltip>
+              <el-tooltip effect="dark" content="disapprove the request" placement="top" :enterable="false">
+               <el-button type="warning" size="mini" @click="disapproveDeleteRequest(scope.$index, scope.row)">Disapprove</el-button>
             </el-tooltip>
             </template>
          </el-table-column>
@@ -115,6 +121,38 @@ export default {
          console.log(that.deletestorelist[index]);
          this.$http
          .post('/admin/checkDeletingRequest/Passed',
+          that.deletestorelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+          that.deletestorelist = that.getDeleteStoreList()
+         })
+      .catch(function (error) {
+         console.log(error);
+         });
+      },
+      disapproveRequest(index,item){
+         let that=this;
+         console.log(that.storelist[index]);
+         this.$http
+         .post('/admin/checkOpenningRequest/sendBack',
+          that.storelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+          that.storelist = that.getStoreList()
+         })
+      .catch(function (error) {
+         console.log(error);
+         
+         });
+      },
+
+      disapproveDeleteRequest(index,item){
+         let that=this;
+         console.log(that.deletestorelist[index]);
+         this.$http
+         .post('/admin/checkDeletingRequest/sendBack',
           that.deletestorelist[index]
          )
          .then(function (res) {
