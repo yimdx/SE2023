@@ -5,14 +5,14 @@
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
          <el-table-column label="Address" prop="address"></el-table-column>
-         <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+         <el-table-column label="ShopInfo" prop="shopIntro"></el-table-column>
          <el-table-column label="StartTime" prop="startTime"></el-table-column>
-         <el-table-column label="Goods" prop="goods"></el-table-column>
-         <el-table-column label="status" prop="status"></el-table-column>
+         <el-table-column label="Goods" prop="goodsType"></el-table-column>
+         <el-table-column label="status" prop="submitStatus"></el-table-column>
          <el-table-column label="action">
             <template v-slot="scope">
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
-               <el-button type="warning" size="mini" @click="approveRequest(scope.row.index)">Approve</el-button>
+               <el-button type="warning" size="mini" @click="approveRequest(scope.$index, scope.row)">Approve</el-button>
             </el-tooltip>
             </template>
          </el-table-column>
@@ -22,14 +22,14 @@
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
          <el-table-column label="Address" prop="address"></el-table-column>
-         <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+         <el-table-column label="ShopInfo" prop="shopIntro"></el-table-column>
          <el-table-column label="StartTime" prop="startTime"></el-table-column>
-         <el-table-column label="Goods" prop="goods"></el-table-column>
-         <el-table-column label="status" prop="status"></el-table-column>
+         <el-table-column label="Goods" prop="goodsType"></el-table-column>
+         <el-table-column label="status" prop="submitStatus"></el-table-column>
          <el-table-column label="action">
             <template v-slot="scope">
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
-               <el-button type="warning" size="mini" @click="approveRequest(scope.row.index)">Approve</el-button>
+               <el-button type="warning" size="mini" @click="approveDeleteRequest(scope.$index, scope.row)">Approve</el-button>
             </el-tooltip>
             </template>
          </el-table-column>
@@ -53,17 +53,17 @@ export default {
       },
       storelist: [{shopName: "testshop", 
                    address: "address",
-                   shopInfo: "shopinfo",
+                   shopIntro: "shopinfo",
                    startTime: "starttime",
-                   goods: "no goods",
-                   status: "submitted" }],
+                   goodsType: "no goods",
+                   submitStatus: "submitted" }],
       total: 0,
       deltestorelist: [{shopName: "testshop", 
                    address: "address",
-                   shopInfo: "shopinfo",
+                   shopIntro: "shopinfo",
                    startTime: "starttime",
-                   goods: "no goods",
-                   status: "submitted" }],
+                   goodsType: "no goods",
+                   submitStatus: "submitted" }],
     }
   },
   created () {
@@ -93,8 +93,9 @@ export default {
             })
       },
 
-      approveRequest(index){
+      approveRequest(index,item){
          let that=this;
+         console.log(that.storelist[index]);
          this.$http
          .post('/admin/checkOpenningRequest/Passed',
           that.storelist[index]
@@ -109,8 +110,9 @@ export default {
          });
       },
 
-      approveDeleteRequest(index){
+      approveDeleteRequest(index,item){
          let that=this;
+         console.log(that.deletestorelist[index]);
          this.$http
          .post('/admin/checkDeletingRequest/Passed',
           that.deletestorelist[index]
