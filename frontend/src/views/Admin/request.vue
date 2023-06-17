@@ -18,7 +18,7 @@
          </el-table-column>
     </el-table>
     <div class="tableName">Deleting Requset :</div>
-    <el-table :data="storelist" border stripe>
+    <el-table :data="deltestorelist" border stripe>
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
          <el-table-column label="Address" prop="address"></el-table-column>
@@ -72,33 +72,36 @@ export default {
   },
   methods: {
        getStoreList () {
+         let that=this;
             this.$http
             .post('/admin/checkOpenningRequest')
             .then(function (res) {
-               this.storelist = res.data.result;
+               that.storelist = res.data.result;
             }).catch(err=>{
                console.log(err);
             });
       },
 
       getDeleteStoreList() {
+         let that=this;
           this.$http
             .post('/admin/checkOpenningRequest')
             .then(function (res) {
-               this.deletestorelist = res.data.result;
+               that.deletestorelist = res.data.result;
             }).catch(err=>{
                console.log(err);
             })
       },
 
       approveRequest(index){
+         let that=this;
          this.$http
          .post('/admin/checkOpenningRequest/Passed',
-          this.storelist[index]
+          that.storelist[index]
          )
          .then(function (res) {
           console.log(res.data);
-          this.storelist = this.getStoreList()
+          that.storelist = that.getStoreList()
          })
       .catch(function (error) {
          console.log(error);
@@ -107,13 +110,14 @@ export default {
       },
 
       approveDeleteRequest(index){
+         let that=this;
          this.$http
          .post('/admin/checkDeletingRequest/Passed',
-          this.deletestorelist[index]
+          that.deletestorelist[index]
          )
          .then(function (res) {
           console.log(res.data);
-          this.deletestorelist = this.getDeleteStoreList()
+          that.deletestorelist = that.getDeleteStoreList()
          })
       .catch(function (error) {
          console.log(error);
