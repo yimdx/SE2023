@@ -198,7 +198,7 @@ const router=useRouter();
 let {shopName,merchantname} =router.currentRoute.value.query;
 const merchantName=ref(merchantname);
 let {proxy}= getCurrentInstance();
-let goodsList=[];
+let goodsList=reactive([]);
 const cartNum=ref(counter.cartNum);
 const newItem = reactive({
     name:"",
