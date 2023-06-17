@@ -220,7 +220,7 @@ const showInfo=reactive({
 function getGoodsList(){
 
   for(let i=0;i<10;i++){
-              goodsList.push({
+              goodsList.value.push({
             name:"apple",
             description:"sweet",
             picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
