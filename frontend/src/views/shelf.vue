@@ -30,7 +30,7 @@
             Stock:{{item.stock}} 
           </div>
          
-          <el-tag :type="getType(item,index)" class="status" >{{item.submitStatus}}</el-tag>
+          <el-tag :type="getType(item,index)" class="status" >{{item.shelf}}</el-tag>
         </div>
          <div class="addCart" @click="addCart(item,index)"><el-icon size="20"><Goods /></el-icon><span style="font-size:10px">BUY</span></div>
           <div v-show="crossVisible" class="delete" @click="deleteGood(item,index)"><el-icon size="20"><Close /></el-icon></div>
@@ -68,8 +68,8 @@
         <p>url</p>
       </el-alert>
     </el-form-item>
-    <el-form-item label="Description" class="item">
-      <el-input  type="textarea" v-model="newItem.description" :rows="4" />
+    <el-form-item label="discription" class="item">
+      <el-input  type="textarea" v-model="newItem.discription" :rows="4" />
       <el-alert type="info" show-icon :closable="false" class="hint-long">
         <p>sentences</p>
       </el-alert>
@@ -99,38 +99,38 @@
   </el-dialog>
 
  <el-dialog v-model="showMoreVisible" title="Good Info" draggable>
-        <el-descriptions title="" :column="3" border>
-    <el-descriptions-item
+        <el-discriptions title="" :column="3" border>
+    <el-discriptions-item
       label="Name"
       label-align="right"
       align="center"
       label-class-name="my-label"
       class-name="my-content"
       width="150px"
-      >{{showInfo.name}}</el-descriptions-item
+      >{{showInfo.name}}</el-discriptions-item
     >
     
-    <el-descriptions-item label="Price" label-align="right" align="center" width="150px"
-      >￥{{showInfo.price}}</el-descriptions-item
+    <el-discriptions-item label="Price" label-align="right" align="center" width="150px"
+      >￥{{showInfo.price}}</el-discriptions-item
     >
    
-    <el-descriptions-item label="Stock" label-align="right" align="center"
-      >{{showInfo.stock}}</el-descriptions-item
+    <el-discriptions-item label="Stock" label-align="right" align="center"
+      >{{showInfo.stock}}</el-discriptions-item
     >
-     <el-descriptions-item label="Status" label-align="right" align="center">
-      <el-tag :type="getType(showInfo,0)" size="small">{{showInfo.submitStatus}}</el-tag>
-    </el-descriptions-item>
+     <el-discriptions-item label="Status" label-align="right" align="center">
+      <el-tag :type="getType(showInfo,0)" size="small">{{showInfo.shelf}}</el-tag>
+    </el-discriptions-item>
 
-     <el-descriptions-item label="" label-align="right" align="center"
-      ></el-descriptions-item
+     <el-discriptions-item label="" label-align="right" align="center"
+      ></el-discriptions-item
     >
-    <el-descriptions-item label="" label-align="right" align="center"
-      ></el-descriptions-item
+    <el-discriptions-item label="" label-align="right" align="center"
+      ></el-discriptions-item
     >
-    <el-descriptions-item label="Description" label-align="right" align="center"
-      >{{showInfo.description}}</el-descriptions-item
+    <el-discriptions-item label="discription" label-align="right" align="center"
+      >{{showInfo.discription}}</el-discriptions-item
     >
-  </el-descriptions>
+  </el-discriptions>
   <div v-show="crossVisible && canEdit" class="edit-btn" @click="editShow">Update Information</div>
   <div v-show="editVisible">
      <el-form
@@ -152,8 +152,8 @@
         <p>url</p>
       </el-alert>
     </el-form-item>
-    <el-form-item label="Description" class="item">
-      <el-input  type="textarea" v-model="newItem.description" :rows="4" />
+    <el-form-item label="discription" class="item">
+      <el-input  type="textarea" v-model="newItem.discription" :rows="4" />
       <el-alert type="info" show-icon :closable="false" class="hint-long">
         <p>sentences</p>
       </el-alert>
@@ -197,35 +197,35 @@ const router=useRouter();
 let {shopName,merchantname} =router.currentRoute.value.query;
 const merchantName=ref(merchantname);
 let {proxy}= getCurrentInstance();
-let goodsList=[];
+let goodsList=ref([]);
 const cartNum=ref(counter.cartNum);
 const newItem = reactive({
     name:"",
-    description:"",
+    discription:"",
     picture:"",
     price:"",
     stock:"",
 });
 const showInfo=reactive({
     name:"",
-    description:"",
+    discription:"",
     picture:"",
     price:"",
     stock:"",
-    submitStatus:""
+    shelf:""
 });
 
 
 function getGoodsList(){
 
   for(let i=0;i<10;i++){
-              goodsList.push({
+              goodsList.value.push({
             name:"apple",
-            description:"sweet",
+            discription:"sweet",
             picture:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
             price:1.05,
             stock:3,
-            submitStatus:"up"
+            shelf:"up"
         });
   };
   proxy.$http
@@ -233,7 +233,7 @@ function getGoodsList(){
         userName:merchantName.value
       })
       .then(function (res) {
-         goodsList=res.data.result;
+         goodsList.value=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
@@ -249,7 +249,7 @@ function getGoodsList(){
 };
 getGoodsList();
 function getType(item,index){
-    if(item.submitStatus==="up") return "success";
+    if(item.shelf==="up") return "success";
     else return "danger"
 
 }
@@ -259,7 +259,7 @@ function addGood(){
 function cancelAdd(){
     addGoodDialogVisible.value=false;
     newItem.name="";
-    newItem.description="";
+    newItem.discription="";
     newItem.picture="";
     newItem.price="";
     newItem.stock="";
@@ -273,13 +273,13 @@ function confirmAdd(){
         return;
     }
      console.log("name check passed")
-     console.log(newItem.description)
-    if(!goodsDescriptionCheck(newItem.description)){
-        newItem.description="";
-         console.log("description check failed")
+     console.log(newItem.discription)
+    if(!goodsdiscriptionCheck(newItem.discription)){
+        newItem.discription="";
+         console.log("discription check failed")
         return;
     }
-     console.log("description check passed")
+     console.log("discription check passed")
     if(!pictureCheck(newItem.picture)){
         newItem.picture="";
          console.log("picture check failed")
@@ -304,7 +304,7 @@ function confirmAdd(){
         userName:userName, 
         shopName:shopName,
         name:newItem.name,
-        discription:newItem.description, 
+        discription:newItem.discription, 
         picture:newItem.picture, 
         price: parseFloat(newItem.price),
         stock :parseInt(newItem.stock)
@@ -312,7 +312,7 @@ function confirmAdd(){
       .then(function (res) {
          console.log("success add");
         newItem.name="";
-        newItem.description="";
+        newItem.discription="";
         newItem.picture="";
         newItem.price="";
         newItem.stock="";
@@ -339,13 +339,13 @@ function confirmUpdate(){
         return;
     }
      console.log("name check passed")
-     console.log(newItem.description)
-    if(!goodsDescriptionCheck(newItem.description)){
-        newItem.description="";
-         console.log("description check failed")
+     console.log(newItem.discription)
+    if(!goodsdiscriptionCheck(newItem.discription)){
+        newItem.discription="";
+         console.log("discription check failed")
         return;
     }
-     console.log("description check passed")
+     console.log("discription check passed")
     if(!pictureCheck(newItem.picture)){
         newItem.picture="";
          console.log("picture check failed")
@@ -364,7 +364,7 @@ function confirmUpdate(){
         return;
     }
      console.log("stock check passed");
-     if(newItem.name===showInfo.name && newItem.description===showInfo.description 
+     if(newItem.name===showInfo.name && newItem.discription===showInfo.discription 
      && newItem.price===showInfo.price && newItem.stock === showInfo.stock
      && newItem.picture === showInfo.picture){
         return;
@@ -375,7 +375,7 @@ function confirmUpdate(){
         userName:userName, 
         shopName:shopName,
         name:newItem.name,
-        discription:newItem.description, 
+        discription:newItem.discription, 
         picture:newItem.picture, 
         price: parseFloat(newItem.price),
         stock :parseInt(newItem.stock)
@@ -383,7 +383,7 @@ function confirmUpdate(){
       .then(function (res) {
          console.log("success alter");
         newItem.name="";
-        newItem.description="";
+        newItem.discription="";
         newItem.picture="";
         newItem.price="";
         newItem.stock="";
@@ -406,14 +406,14 @@ function confirmUpdate(){
 function showMore(index,item){
     showMoreVisible.value=true;
     showInfo.name=item.name;
-    showInfo.description=item.description;
+    showInfo.discription=item.discription;
     showInfo.picture=item.picture;
     showInfo.price=item.price;
     showInfo.stock=item.stock;
-    showInfo.submitStatus=item.submitStatus;
-    canEdit.value=(showInfo.submitStatus==="up");
+    showInfo.shelf=item.shelf;
+    canEdit.value=(showInfo.shelf==="up");
      newItem.name=showInfo.name;
-    newItem.description=showInfo.description;
+    newItem.discription=showInfo.discription;
     newItem.picture=showInfo.picture;
     newItem.price=showInfo.price;
     newItem.stock=showInfo.stock;
@@ -451,7 +451,7 @@ function addCart(item,index){
     if(item.stock===0){
         return;
     }
-    if(item.submitStatus==="down") return;
+    if(item.shelf==="down") return;
     let flag=false;
     let idx=-1;
     counter.cart.forEach((o,index)=>{

@@ -120,11 +120,12 @@ export default {
         },
       ];
       const counter=useCounterStore();
+      let that =this;
       this.$http.post("/admin/index/mystores",{
         userName:counter.userName
       })
       .then(res=>{
-        this.storelist = res.data.result;
+        that.storelist = res.data.result;
         console.log(res);
       }).catch(err=>{
         console.log(err);

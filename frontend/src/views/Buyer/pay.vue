@@ -80,7 +80,7 @@ const router = useRouter();
 const counter = useCounterStore();
 const userType = counter.userType;
 const userName = counter.userName;
-const order = reactive([]);
+const order = ref([]);
 const centerDialogVisible = ref(false);
 const totalCost = ref(0.0);
 let { orderId } = router.currentRoute.value.query;
@@ -92,7 +92,7 @@ function fetchOrder() {
       orderId: orderId
     })
     .then(function (res) {
-      order=res.data.result;
+      order.value=res.data.result;
     })
     .catch((err) => {
        ElNotification({
@@ -104,8 +104,8 @@ function fetchOrder() {
 fetchOrder();
 function getTotal() {
   totalCost.value = 0;
-  for (let i = 0; i < order.length; i++) {
-    totalCost.value += order[i].quantity * order[i].unitPrice;
+  for (let i = 0; i < order.value.length; i++) {
+    totalCost.value += order.value[i].quantity * order.value[i].unitPrice;
   }
 }
 

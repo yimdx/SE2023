@@ -5,31 +5,37 @@
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
          <el-table-column label="Address" prop="address"></el-table-column>
-         <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+         <el-table-column label="ShopInfo" prop="shopIntro"></el-table-column>
          <el-table-column label="StartTime" prop="startTime"></el-table-column>
-         <el-table-column label="Goods" prop="goods"></el-table-column>
-         <el-table-column label="status" prop="status"></el-table-column>
+         <el-table-column label="Goods" prop="goodsType"></el-table-column>
+         <el-table-column label="status" prop="submitStatus"></el-table-column>
          <el-table-column label="action">
             <template v-slot="scope">
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
-               <el-button type="warning" size="mini" @click="approveRequest(scope.row.index)">Approve</el-button>
+               <el-button type="warning" size="mini" @click="approveRequest(scope.$index, scope.row)">Approve</el-button>
+            </el-tooltip>
+             <el-tooltip effect="dark" content="disapprove the request" placement="top" :enterable="false">
+               <el-button type="warning" size="mini" @click="disapproveRequest(scope.$index, scope.row)">Disapprove</el-button>
             </el-tooltip>
             </template>
          </el-table-column>
     </el-table>
     <div class="tableName">Deleting Requset :</div>
-    <el-table :data="storelist" border stripe>
+    <el-table :data="deltestorelist" border stripe>
          <el-table-column type="index"></el-table-column>
          <el-table-column label="ShopName" prop="shopName"></el-table-column>
          <el-table-column label="Address" prop="address"></el-table-column>
-         <el-table-column label="ShopInfo" prop="shopInfo"></el-table-column>
+         <el-table-column label="ShopInfo" prop="shopIntro"></el-table-column>
          <el-table-column label="StartTime" prop="startTime"></el-table-column>
-         <el-table-column label="Goods" prop="goods"></el-table-column>
-         <el-table-column label="status" prop="status"></el-table-column>
+         <el-table-column label="Goods" prop="goodsType"></el-table-column>
+         <el-table-column label="status" prop="submitStatus"></el-table-column>
          <el-table-column label="action">
             <template v-slot="scope">
             <el-tooltip effect="dark" content="approve the request" placement="top" :enterable="false">
-               <el-button type="warning" size="mini" @click="approveRequest(scope.row.index)">Approve</el-button>
+               <el-button type="warning" size="mini" @click="approveDeleteRequest(scope.$index, scope.row)">Approve</el-button>
+            </el-tooltip>
+              <el-tooltip effect="dark" content="disapprove the request" placement="top" :enterable="false">
+               <el-button type="warning" size="mini" @click="disapproveDeleteRequest(scope.$index, scope.row)">Disapprove</el-button>
             </el-tooltip>
             </template>
          </el-table-column>
@@ -53,17 +59,17 @@ export default {
       },
       storelist: [{shopName: "testshop", 
                    address: "address",
-                   shopInfo: "shopinfo",
+                   shopIntro: "shopinfo",
                    startTime: "starttime",
-                   goods: "no goods",
-                   status: "submitted" }],
+                   goodsType: "no goods",
+                   submitStatus: "submitted" }],
       total: 0,
       deltestorelist: [{shopName: "testshop", 
                    address: "address",
-                   shopInfo: "shopinfo",
+                   shopIntro: "shopinfo",
                    startTime: "starttime",
-                   goods: "no goods",
-                   status: "submitted" }],
+                   goodsType: "no goods",
+                   submitStatus: "submitted" }],
     }
   },
   created () {
@@ -72,33 +78,37 @@ export default {
   },
   methods: {
        getStoreList () {
+         let that=this;
             this.$http
             .post('/admin/checkOpenningRequest')
             .then(function (res) {
-               this.storelist = res.data.result;
+               that.storelist = res.data.result;
             }).catch(err=>{
                console.log(err);
             });
       },
 
       getDeleteStoreList() {
+         let that=this;
           this.$http
             .post('/admin/checkOpenningRequest')
             .then(function (res) {
-               this.deletestorelist = res.data.result;
+               that.deletestorelist = res.data.result;
             }).catch(err=>{
                console.log(err);
             })
       },
 
-      approveRequest(index){
+      approveRequest(index,item){
+         let that=this;
+         console.log(that.storelist[index]);
          this.$http
          .post('/admin/checkOpenningRequest/Passed',
-          this.storelist[index]
+          that.storelist[index]
          )
          .then(function (res) {
           console.log(res.data);
-          this.storelist = this.getStoreList()
+          that.storelist = that.getStoreList()
          })
       .catch(function (error) {
          console.log(error);
@@ -106,14 +116,48 @@ export default {
          });
       },
 
-      approveDeleteRequest(index){
+      approveDeleteRequest(index,item){
+         let that=this;
+         console.log(that.deletestorelist[index]);
          this.$http
          .post('/admin/checkDeletingRequest/Passed',
-          this.deletestorelist[index]
+          that.deletestorelist[index]
          )
          .then(function (res) {
           console.log(res.data);
-          this.deletestorelist = this.getDeleteStoreList()
+          that.deletestorelist = that.getDeleteStoreList()
+         })
+      .catch(function (error) {
+         console.log(error);
+         });
+      },
+      disapproveRequest(index,item){
+         let that=this;
+         console.log(that.storelist[index]);
+         this.$http
+         .post('/admin/checkOpenningRequest/sendBack',
+          that.storelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+          that.storelist = that.getStoreList()
+         })
+      .catch(function (error) {
+         console.log(error);
+         
+         });
+      },
+
+      disapproveDeleteRequest(index,item){
+         let that=this;
+         console.log(that.deletestorelist[index]);
+         this.$http
+         .post('/admin/checkDeletingRequest/sendBack',
+          that.deletestorelist[index]
+         )
+         .then(function (res) {
+          console.log(res.data);
+          that.deletestorelist = that.getDeleteStoreList()
          })
       .catch(function (error) {
          console.log(error);
