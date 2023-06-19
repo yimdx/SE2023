@@ -275,7 +275,7 @@ function confirmAdd(){
     }
      console.log("name check passed")
      console.log(newItem.discription)
-    if(!goodsdiscriptionCheck(newItem.discription)){
+    if(!goodsDescriptionCheck(newItem.discription)){
         newItem.discription="";
          console.log("discription check failed")
         return;
@@ -341,7 +341,7 @@ function confirmUpdate(){
     }
      console.log("name check passed")
      console.log(newItem.discription)
-    if(!goodsdiscriptionCheck(newItem.discription)){
+    if(!goodsDescriptionCheck(newItem.discription)){
         newItem.discription="";
          console.log("discription check failed")
         return;
