@@ -99,38 +99,38 @@
   </el-dialog>
 
  <el-dialog v-model="showMoreVisible" title="Good Info" draggable>
-        <el-discriptions title="" :column="3" border>
-    <el-discriptions-item
+        <el-descriptions title="" :column="3" border>
+    <el-descriptions-item
       label="Name"
       label-align="right"
       align="center"
       label-class-name="my-label"
       class-name="my-content"
       width="150px"
-      >{{showInfo.name}}</el-discriptions-item
+      >{{showInfo.name}}</el-descriptions-item
     >
     
-    <el-discriptions-item label="Price" label-align="right" align="center" width="150px"
-      >￥{{showInfo.price}}</el-discriptions-item
+    <el-descriptions-item label="Price" label-align="right" align="center" width="150px"
+      >￥{{showInfo.price}}</el-descriptions-item
     >
    
-    <el-discriptions-item label="Stock" label-align="right" align="center"
-      >{{showInfo.stock}}</el-discriptions-item
+    <el-descriptions-item label="Stock" label-align="right" align="center"
+      >{{showInfo.stock}}</el-descriptions-item
     >
-     <el-discriptions-item label="Status" label-align="right" align="center">
+     <el-descriptions-item label="Status" label-align="right" align="center">
       <el-tag :type="getType(showInfo,0)" size="small">{{showInfo.shelf}}</el-tag>
-    </el-discriptions-item>
+    </el-descriptions-item>
 
-     <el-discriptions-item label="" label-align="right" align="center"
-      ></el-discriptions-item
+     <el-descriptions-item label="" label-align="right" align="center"
+      ></el-descriptions-item
     >
-    <el-discriptions-item label="" label-align="right" align="center"
-      ></el-discriptions-item
+    <el-descriptions-item label="" label-align="right" align="center"
+      ></el-descriptions-item
     >
-    <el-discriptions-item label="discription" label-align="right" align="center"
-      >{{showInfo.discription}}</el-discriptions-item
+    <el-descriptions-item label="discription" label-align="right" align="center"
+      >{{showInfo.discription}}</el-descriptions-item
     >
-  </el-discriptions>
+  </el-descriptions>
   <div v-show="crossVisible && canEdit" class="edit-btn" @click="editShow">Update Information</div>
   <div v-show="editVisible">
      <el-form
