@@ -52,6 +52,23 @@ result = cursor.fetchall()
 print(f"###############result={result}############")
 mutex.release()
 '''
+'''USR
+merchantName = 'seller'
+name = 'GoodsC'
+transaction_ask = f"SELECT userName, name, discription, \
+        picture, price, stock FROM upShelfRequest WHERE userName = '{merchantName}' AND name = '{name}'"
+mutex.acquire()
+cursor.execute(transaction_ask)
+result = cursor.fetchall()
+print(result[0]['discription'],' ',result[0]['picture'],' ',result[0]['price'],' ',result[0]['stock'])
+transaction_insert = f"insert into goodsList(merchantName,name,discription,picture,price,stock,shelf)\
+        values('{merchantName}','{name}','{result[0]['discription']}','{result[0]['picture']}',\
+            {result[0]['price']},{result[0]['stock']},'up')"
+cursor.execute(transaction_insert)
+conn.commit()
+
+mutex.release()
+'''
 
 
 

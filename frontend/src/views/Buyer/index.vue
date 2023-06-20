@@ -56,6 +56,19 @@
                     <el-menu-item index="account" @click="gotoPersonalAccountPage"><span style="font-size:20px">Personal Account</span></el-menu-item>
                   </el-menu-item-group>
                 </el-sub-menu>
+                <el-sub-menu index="3">
+                  <template #title>
+                    <el-icon><icon-menu /></el-icon><span style="font-size:25px">Cart and Order</span>
+                  </template>
+                  <el-menu-item-group>
+                    <template #title><span style="font-size:23px">Cart</span></template>
+                    <el-menu-item index="cart" @click="gotoCartPage"><span style="font-size:20px">Cart</span></el-menu-item>
+                  </el-menu-item-group>
+                  <el-menu-item-group>
+                    <template #title><span style="font-size:23px">Order</span></template>
+                    <el-menu-item index="order" @click="gotoOrderPage"><span style="font-size:20px">Order</span></el-menu-item>
+                  </el-menu-item-group>
+                </el-sub-menu>
               </el-menu>
               <!-- </div> -->
             </el-scrollbar>
@@ -104,6 +117,14 @@ const gotoStore = () => {
 };
 const gotoPersonalAccountPage=()=>{
   router.push("/buyer/index/personalaccount");
+}
+
+const gotoCartPage = () =>{
+  router.push("/buyer/index/cart");
+}
+
+const gotoOrderPage = () =>{
+  router.push("/buyer/index/order");
 }
 
 </script>

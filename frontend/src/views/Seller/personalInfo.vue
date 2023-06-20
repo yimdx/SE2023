@@ -8,7 +8,7 @@
           </template>
         <el-descriptions-item label = 'User'>
           <i class="el-icon-user"></i>
-          {{ username }}
+          {{ userName }}
         </el-descriptions-item>
         <el-descriptions-item label = 'Email'>
           <i class="el-icon-message"></i>
@@ -31,7 +31,7 @@
       <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
         <el-form :inline="true">
           <el-form-item label="UserName">
-            <el-input v-model="username"></el-input>
+            <el-input v-model="userName"></el-input>
           </el-form-item>
           <el-form-item label="PassWord">
             <el-input v-model="password" show-password></el-input>
@@ -89,7 +89,7 @@ let { proxy } = getCurrentInstance();
 
 const errorMsg = ref("");
 const counter=useCounterStore();
-const username = ref(counter.userName);
+const userName = ref(counter.userName);
 const phoneNumber = ref("65535");
 const emailPrefix = ref("200");
 const emailSuffix = ref("fdu.edu.cn");
@@ -100,7 +100,6 @@ const router = useRouter();
 const dialogVisible = ref(false);
 
 function getPersonalInfo(){
-  username.value = "myname";
   phoneNumber.value = "65535";
   emailPrefix.value = "200";
   emailSuffix.value = "fdu.edu.cn";
@@ -108,14 +107,16 @@ function getPersonalInfo(){
   password.value = "";
   certifyPassword.value = "";
   proxy.$http
-      .post("/seller/personalAccount", {
-        userName: username.value
+      .post("/seller/personalInfo", {
+        userName: userName.value
       })
       .then(function (res) {
           let user =res.data.result;
-          username.value = user.username;
+          console.log("#######/seller/personalInfo");
+          console.log(user.userName);
+          userName.value = user.userName;
           counter.$patch({
-          userName:username.value,
+          userName:userName.value,
           userType:counter.userType
           });
           phoneNumber.value = user.phoneNumber;
@@ -130,7 +131,7 @@ function getPersonalInfo(){
         
         ElNotification({
           title: "Error",
-          message: "Get Account Failed(Something must go wrong!)",
+          message: "Get PersonInfo Failed(Something must go wrong!)",
           type: "error",});
       });
 };
@@ -145,13 +146,13 @@ const cancelModify = () =>{
   dialogVisible.value = false;
 }
 const confirmModify = () => {
-  if(!usernameCheck(username.value)){
+  if(!usernameCheck(userName.value)){
      ElNotification({
       title: "Error",
       message: "Invalid Username!",
       type: "error",
     });
-    username.value ="";
+    userName.value ="";
   }else if(!passwordCheck(password.value)){
       ElNotification({
       title: "Error",
@@ -184,14 +185,13 @@ const confirmModify = () => {
   {
     proxy.$http
       .post("/seller/personalInfo/modify", {
-        username: username.value,
+        userName: userName.value,
         password: password.value,
         idNumber: idCode.value,
         phoneNumber:phoneNumber.value,
         email:emailPrefix.value+"@"+emailSuffix.value
       })
       .then(function (res) {
-        router.push('/seller/personalInfo');
          ElNotification({
           title: "Success",
           message: "Confirm PersonalInfo Change",

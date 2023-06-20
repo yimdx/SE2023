@@ -51,26 +51,19 @@ const router = useRouter();
 const dialogVisible = ref(false);
 const counter=useCounterStore();
 const errorMsg = ref("");
-const username = counter.userName;
-const accountInfo=reactive({
-    account:"",
-    balance:"",
-});
+const userName = counter.userName;
 
-let account = {
-    account:"",
-    balance:"",
-}
+let account = ref({})
 
 function getAccount(){
   account.account = "mynaccount";
   account.balance = "65535";
   proxy.$http
       .post("/buyer/personalAccount", {
-        userName: username
+        userName: userName
       })
       .then(function (res) {
-         account=res.data.result;
+         account.value=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
@@ -87,7 +80,7 @@ const showConfirmCodeDialog = () => {
   // 显示对话框
   dialogVisible.value = true;
 };
-const cancelRecharge = () =>{
+const confirmRecharge = () =>{
   proxy.$http
       .post("/buyer/personalAccount/recharge", {
         account: account.account,
@@ -107,7 +100,7 @@ const cancelRecharge = () =>{
   getAccount();
   dialogVisible.value = false;
 }
-const confirmRecharge = () => {
+const concelRecharge = () => {
   getAccount();
   dialogVisible.value = false;
 }

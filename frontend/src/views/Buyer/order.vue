@@ -7,19 +7,23 @@
         </el-breadcrumb>
 
         <el-button
-        @click="showNotPaid(scope.$index, scope.row)">
+        @click="getAllOrder()">
+        所有订单    
+        </el-button>
+        <el-button
+        @click="getNotPaidOrder()">
         未支付    
         </el-button>
         <el-button     
-        @click="showPaid(scope.$index, scope.row)">
+        @click="getPaidOrder()">
             已支付
         </el-button>
         <el-button
-        @click="showCanceled(scope.$index, scope.row)">
+        @click="getCanceledOrder()">
             已撤销
         </el-button>
 
-        <el-table :data="cart" :border="true" style="width: 100%;margin-top:30;margin-left:0">
+        <el-table :data="orderList" :border="true" style="width: 100%;margin-top:30;margin-left:0">
             <el-table-column type="expand">
             <template #default="props">
                 <div m="4" class="expand">
@@ -30,32 +34,22 @@
                 @click="showMore(index,item)"
                 />
                 <div class="des">
-                <p m="t-0 b-2">Order Number: {{ props.row.goodsName }}</p>
-                <p m="t-0 b-2">Total Price: {{ props.row.merchantName }}</p>
-                <p m="t-0 b-2">Create time: {{ props.row.unitPrice }}</p>
-                <p m="t-0 b-2">Status: {{ props.row.quantity }}</p>
+                <p m="t-0 b-2">Order Number: {{ props.row.orderId }}</p>
+                <p m="t-0 b-2">Total Price: {{ props.row.totalPrice }}</p>
+                <p m="t-0 b-2">Create time: {{ props.row.createTime }}</p>
+                <p m="t-0 b-2">Status: {{ props.row.status }}</p>
                 </div>
                 <div style="position:absolute;left:30%;top:80%"><span style="color:red;font:25px red">Total:</span> 
                 &nbsp;<span style="color:grey;font-size:20px">￥</span>
-                <span style="font-size:25px">{{props.row.unitPrice*props.row.quantity}}</span></div>
+                <!-- <span style="font-size:25px">{{props.row.unitPrice*props.row.quantity}}</span></div> -->
+                </div>
                 </div>
             </template>
             </el-table-column>
-            <el-table-column label="Order Number" prop="goodsName" />
-            <el-table-column label="Total Price" prop="merchantName" />
-            <el-table-column label="Create time" prop="unitPrice" />
-            <el-table-column label="Status"  >
-            <template #default="scope">
-                <el-input-number
-                v-model="scope.row.quantity"
-                class="mx-4"
-                :min="0"
-                :max="scope.row.maxQuantity"
-                controls-position="right"
-                @change="handleChange"
-            />
-            </template>
-            
+            <el-table-column label="Order Number" prop="orderId" />
+            <el-table-column label="Total Price" prop="totalPrice" />
+            <el-table-column label="Create time" prop="createTime" />
+            <el-table-column label="Status" prop="status" >            
             </el-table-column>
 
             <el-table-column label="Operations">
@@ -64,19 +58,19 @@
                 size="small"
                 type="danger"
                 @click="showMore(scope.$index, scope.row)"
-                >Delete</el-button
+                >showMore</el-button
                 >
                 <el-button
                 size="small"
                 type="danger"
                 @click="handleCancel(scope.$index, scope.row)"
-                >Delete</el-button
+                >Cancel</el-button
                 >
                 <el-button
                 size="small"
                 type="danger"
                 @click="handlePay(scope.$index, scope.row)"
-                >Delete</el-button
+                >Pay</el-button
                 >
             </template>
             </el-table-column>
@@ -84,27 +78,27 @@
         </el-table>
 
     </el-card>
-  <!-- <div v-for="(item,index) in cart" :key="index">
-    {{item.merchantName}} {{item.picture}} {{item.price}} {{item.quantity}} {{item.goodsName}}
-  </div> -->
 </div>
 </template>
 
 <script setup>
 import  {useCounterStore} from "../../stores/counter"
+import { ElNotification } from "element-plus";
 import {useRouter} from "vue-router"
-import { reactive ,ref} from "vue";
+import { reactive ,ref, getCurrentInstance} from "vue";
 const router=useRouter();
 const counter =useCounterStore();
 counter.cart.forEach(item=>{
   item.maxQuantity=item.quantity;
 });
-
+const orderList = ref([])
+const orderId = ref("")
 const userType=counter.userType;
-const userName=counter.userName;
+const userName=ref(counter.userName);
 const cart=reactive(counter.cart);
 const cartNum=ref(counter.cartNum);
 const totalCost=ref(counter.totalCost);
+let {proxy}= getCurrentInstance();
 function handleChange(current,old){
   if(current<old){
      counter.cartNum--;
@@ -115,37 +109,52 @@ function handleChange(current,old){
 }
 
 function getAllOrder(){
+    // orderList.value.push({
+    // orderId:"000",
+    // totalPrice:"100.22",
+    // createTime:"10:22",
+    // status:"paid"
+    // });
+    // orderList.value.push({
+    // orderId:"000",
+    // totalPrice:"100.22",
+    // createTime:"10:22",
+    // status:"paid"
+    // });
     proxy.$http
-      .post("/buyer/order/all", {
-        userName: userName,
+      .post("/buyer/order/orderAll", {
+        userName: userName.value,
       })
       .then(function (res) {
-         orderList=res.data.result;
+         orderList.value=res.data.result;
+         console.log(res.data.result)
       })
       .catch(function (error) {
         console.log(error);
-        
         ElNotification({
           title: "Error",
-          message: "Recharge Failed(Something must go wrong!)",
+          message: "getAllOrder Failed(Something must go wrong!)",
           type: "error",});
       });
 }
 
-function getNotPaidOrder(){
+getAllOrder();
+
+function getNotPaidOrder(){ 
     proxy.$http
       .post("/buyer/order/notPaid", {
-        userName: userName,
+        userName: userName.value,
       })
       .then(function (res) {
-         orderList=res.data.result;
+         orderList.value=res.data.result;
+         console.log(res.data.result)
       })
       .catch(function (error) {
         console.log(error);
         
         ElNotification({
           title: "Error",
-          message: "Recharge Failed(Something must go wrong!)",
+          message: "getNotPaidOrder Failed(Something must go wrong!)",
           type: "error",});
       });
 }
@@ -153,17 +162,18 @@ function getNotPaidOrder(){
 function getPaidOrder(){
     proxy.$http
       .post("/buyer/order/paid", {
-        userName: userName,
+        userName: userName.value,
       })
       .then(function (res) {
-         orderList=res.data.result;
+         orderList.value=res.data.result;
+         console.log(res.data.result)
       })
       .catch(function (error) {
         console.log(error);
         
         ElNotification({
           title: "Error",
-          message: "Recharge Failed(Something must go wrong!)",
+          message: "getPaidOrder Failed(Something must go wrong!)",
           type: "error",});
       });
 }
@@ -171,23 +181,23 @@ function getPaidOrder(){
 function getCanceledOrder(){
     proxy.$http
       .post("/buyer/order/canceled", {
-        userName: userName,
+        userName: userName.value,
       })
       .then(function (res) {
-         orderList=res.data.result;
+         orderList.value=res.data.result;
       })
       .catch(function (error) {
         console.log(error);
         
         ElNotification({
           title: "Error",
-          message: "Recharge Failed(Something must go wrong!)",
+          message: "getCanceledOrder Failed(Something must go wrong!)",
           type: "error",});
       });
 }
 
 function handlePay(index,item){
-    router.push("/buyer/index/pay");
+    router.push("/buyer/index/pay?orderId="+item.orderId);
 }
 
 function handleCanceled(index,item){
@@ -210,7 +220,7 @@ function handleCanceled(index,item){
         console.log(error)
         ElNotification({
           title: "Error",
-          message: "Add Commodity Failed(Something must go wrong!)",
+          message: "Cancel Failed(Something must go wrong!)",
           type: "error",});
 
       });

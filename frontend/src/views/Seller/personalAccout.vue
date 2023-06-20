@@ -40,31 +40,31 @@
 import { ElNotification } from "element-plus";
 import { ref, getCurrentInstance } from "vue";
 import  {useCounterStore} from "../../stores/counter"
+import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
+import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
 
 let { proxy } = getCurrentInstance();
 
-let account = {
-    account:"",
-    balance:"",
-}
+let account = ref({})
 
 const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
 const counter=useCounterStore();
 const errorMsg = ref("");
-const username = counter.userName;
+const userName = counter.userName;
 
 function getAccount(){
-  account.account = "mynaccount";
-  account.balance = "65535";
+
   proxy.$http
       .post("/seller/personalAccount", {
-        userName: username
+        userName: userName
       })
       .then(function (res) {
-         account=res.data.result;
+        console.log(res.data.result);
+         account.value=res.data.result;
+         console.log(account);
       })
       .catch(function (error) {
         console.log(error);

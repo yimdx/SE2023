@@ -97,7 +97,7 @@ counter.cart.forEach(item=>{
   item.maxQuantity=item.quantity;
 });
 const userType=counter.userType;
-const userName=counter.userName;
+const userName=ref(counter.userName);
 const cart=reactive(counter.cart);
 cart.push({
     merchantName:"Li Hua",
@@ -147,7 +147,7 @@ function confirmPurchase(){
   //create order number
     proxy.$http
       .post("/buyer/order/create", {
-        username: username.value,
+        userName: userName.value,
       })
       .then(function (res) {
         let orderId=res.data.result;
@@ -163,8 +163,9 @@ function confirmPurchase(){
               })
               .then(function (res) {
                 console.log("order item "+i+" has been created");
+                console.log(orderId)
                 if(i===k-1){
-                  router.push("/buyer/index/pay?orderId="+orderId);
+                  router.push("/buyer/index/pay?orderId="+orderId.orderId);
                   ElNotification({
                     title: 'Success',
                     message: 'Order Successfully!',

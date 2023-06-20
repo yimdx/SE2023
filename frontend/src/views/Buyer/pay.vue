@@ -74,8 +74,10 @@
 <script setup>
 import { useCounterStore } from "../../stores/counter";
 import { useRouter } from "vue-router";
-import { reactive, ref } from "vue";
+import { reactive, ref, getCurrentInstance } from "vue";
 import { ElNotification } from "element-plus";
+
+let { proxy } = getCurrentInstance();
 const router = useRouter();
 const counter = useCounterStore();
 const userType = counter.userType;

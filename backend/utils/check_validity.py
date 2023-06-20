@@ -27,5 +27,18 @@ def checkIID(ID: str) -> int:
             return 0
     except:
         return 0
+
+def checkCommodityInfo(info):
+    if (info["name"] == None) \
+        or (len(info["name"]) > 64) \
+        or (info["discription"] == None) \
+        or (len(info["discription"]) > 128) \
+        or (info["picture"] == None) \
+        or (info["price"] <= 0) \
+        or (info["price"] == None) \
+        or (info["stock"] == None) \
+        or (info["stock"] <= 0):
+        return 0
+    return 1
             
 # ref: https://blog.csdn.net/hynet365/article/details/127276003

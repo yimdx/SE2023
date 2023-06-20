@@ -83,9 +83,14 @@ transaction_cart = f"INSERT INTO cart({'buyerName'},{'merchantName'},{'goodsName
 'file:///D:/SE/intro.jpg',1,1,'No')"
 merchantName = "seller"
 goodsName = "GoodsB"
-
 mutex.acquire()
 cursor.execute(transaction_cart)
+conn.commit()
+select_cart = f"SELECT * FROM cart where goodsName='{goodsName}'"
+cursor.execute(select_cart)
+print(cursor.fetchall())
+update_cart = f"update cart set quantity=0,shelf='down' where merchantName='seller' and buyerName='buyer'"
+cursor.execute(update_cart)
 conn.commit()
 select_cart = f"SELECT * FROM cart where goodsName='{goodsName}'"
 cursor.execute(select_cart)
@@ -97,6 +102,49 @@ select_cart = f"SELECT * FROM cart where goodsName='{goodsName}'"
 cursor.execute(select_cart)
 print(cursor.fetchall())
 mutex.release()
+
+
 '''
+'''
+def askForQuantity(buyerName,merchantName,goodsName):
+    mutex.acquire()
+    transaction = f"SELECT quantity FROM cart WHERE goodsName ='{goodsName}'\
+    AND buyerName = '{buyerName}' AND merchantName = '{merchantName}'"
+    cursor.execute(transaction)
+    result = cursor.fetchall()
+    if not result:
+        quantity = 0 
+    else:
+        quantity = result[0]['quantity']
+    mutex.release()
+    return quantity
+
+def updateQuantity(formerQuantity,quantity,buyerName,merchantName,goodsName):
+    total = quantity + formerQuantity
+    mutex.acquire()
+    if total < 1:
+        transaction = f"delete from cart where \
+    buyerName='{buyerName}' and goodsName='{goodsName}' and merchantName = '{merchantName}'"
+        cursor.execute(transaction)
+        conn.commit()
+        mutex.release()
+        return 0
+    else:
+        transaction = f"update cart set quantity={total} where \
+        goodsName ='{goodsName}' and buyerName = '{buyerName}' and merchantName = '{merchantName}'" 
+        cursor.execute(transaction)
+        conn.commit()
+        mutex.release()
+        return 1
+    
+formerQuantity = askForQuantity('buyer','seller','goodsB')    
+print(formerQuantity)
+#updateQuantity(formerQuantity,1,'buyer','seller','goodsC')
+#print(askForQuantity('buyer','seller','goodsC'))
+'''
+
+
+
+#shut down mysql
 cursor.close()
 conn.close()

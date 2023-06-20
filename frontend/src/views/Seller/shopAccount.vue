@@ -41,44 +41,50 @@
 <script setup>
 import { ElNotification } from "element-plus";
 import { onMounted, reactive, ref, getCurrentInstance } from "vue";
+import  {useCounterStore} from "../../stores/counter"
 import { Unlock, User, Avatar } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import {usernameCheck,passwordCheck,idCodeCheck,emailCheck,phoneCheck} from "../../utils/regressionCheck"
 
 let { proxy } = getCurrentInstance();
-let shopAccountList=[];
+let shopAccountList=ref([]);
 
+const counter=useCounterStore();
 const rechargeMoney = ref("");
 const router = useRouter();
 const dialogVisible = ref(false);
+const userName = counter.userName;
+
 const accountInfo=reactive({
     account:"",
     balance:"",
 });
 function getShopAccount(){
-  shopAccountList.push(
-      {
-        account:"1",
-        balance:1000.00,
-      }
-  );
-  shopAccountList.push(
-      {
-        account:"2",
-        balance:1000.00,
-      }
-  );
-  shopAccountList.push(
-      {
-        account:"3",
-        balance:1000.00,
-      }
-  );
+  // shopAccountList.value.push(
+  //     {
+  //       account:"1",
+  //       balance:1000.00,
+  //     }
+  // );
+  // shopAccountList.value.push(
+  //     {
+  //       account:"2",
+  //       balance:1000.00,
+  //     }
+  // );
+  // shopAccountList.value.push(
+  //     {
+  //       account:"3",
+  //       balance:1000.00,
+  //     }
+  // );
   proxy.$http
       .post("/seller/shopAccount", {
+        userName: userName
       })
       .then(function (res) {
-         shopAccountList=res.data.result;
+         shopAccountList.value = res.data.result;
+         console.log(shopAccountList)
       })
       .catch(function (error) {
         console.log(error);
